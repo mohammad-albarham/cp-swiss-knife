@@ -1,9 +1,16 @@
-# Codeforces for VS Code
+<div align="center">
+  <img src="media/icon.png" width="150" alt="Competitive Programming Swiss Knife Logo" />
+  <h1>Competitive Programming Swiss Knife</h1>
+  <p><b>The ultimate unified toolkit for competitive programmers in VS Code.</b></p>
+  <p>
+    <img src="https://img.shields.io/badge/version-0.2.0-blue" alt="Version" />
+    <img src="https://img.shields.io/badge/license-MIT-green" alt="License" />
+  </p>
+</div>
 
-![Version](https://img.shields.io/badge/version-0.2.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+> 🚀 **Roadmap Note:** This project is designed to be the definitive "Swiss Army Knife" for competitive programming. **Currently, it features full Codeforces integration.** In future updates, we will be rolling out support for other online judges (such as AtCoder, LeetCode, CodeChef) along with additional tools to streamline your competitive programming workflow!
 
-Solve Codeforces problems directly in VS Code — browse problems, join contests, run local tests, submit solutions, and track your progress without ever leaving the editor.
+Solve Codeforces problems directly in VS Code — browse problems, join contests, run local tests, and track your progress without ever leaving the editor.
 
 ## Features
 
@@ -17,22 +24,15 @@ Solve Codeforces problems directly in VS Code — browse problems, join contests
 
 ### Problem Preview
 - Rich in-extension problem statement with time/memory limits, sample cases, tags, and rating
-- **Open in Editor** — generates a ready-to-submit solution file from your language template
+- **Open in Editor** — generates a ready-to-test solution file from your language template
 - **Run Local Tests** button directly in the preview toolbar
 - **Import Samples from Clipboard** — paste the Examples section from any Codeforces problem page
 
 ### Local Testing
 - Dedicated **Test Results panel** with per-case pass/fail, diff view, input/output inspection, and rerun
 - **Custom Test** — run against any input you type
-- After all samples pass, a **Submit to Codeforces** action appears targeting the exact tested file
 - Supports C++, Python, Java, Kotlin, Rust, Go, C#, JavaScript
 
-### Code Submission
-- Submit with `Cmd/Ctrl+Alt+S` or the editor toolbar button
-- Uses a **persistent local Chrome/Chromium session** — no credentials stored in plain text
-- Automatically uses the **contest-specific submit URL** during running contests (correct language selector)
-- Real-time verdict polling with time/memory details in the Output channel
-- Anti-bot verification handling: pauses and lets you complete the challenge, then resumes
 
 ### Contest Explorer
 - Upcoming, running, and recent contests with live countdowns in the sidebar and status bar
@@ -65,16 +65,8 @@ Solve Codeforces problems directly in VS Code — browse problems, join contests
 3. Click **Login** and enter your Codeforces handle.
 4. *(Optional)* Click **Configure API Credentials** to enable authenticated API features.
 5. Browse problems → click one to preview → click **Open in Editor** to start coding.
-6. Press `Cmd/Ctrl+Alt+T` to run local sample tests, then `Cmd/Ctrl+Alt+S` to submit.
+6. Press `Cmd/Ctrl+Alt+T` to run local sample tests.
 
-### Submission Prerequisites
-
-Direct submission requires a local **Chrome or Chromium** installation. On the first submission the extension opens a browser window for Codeforces web login. Subsequent submissions reuse the saved session.
-
-Configure the path if it is not auto-detected:
-```json
-"codeforces.chromeExecutablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-```
 
 ---
 
@@ -84,7 +76,6 @@ Configure the path if it is not auto-detected:
 |---------|----------|-------------|
 | `Codeforces: Login` | — | Authenticate with your handle |
 | `Codeforces: Logout` | — | Sign out |
-| `Codeforces: Submit Solution` | `Cmd+Alt+S` | Submit the active solution file |
 | `Codeforces: Run Sample Tests` | `Cmd+Alt+T` | Run local sample tests |
 | `Codeforces: Preview Problem` | `Cmd+Alt+P` | Preview problem in a webview |
 | `Codeforces: Daily Problem` | — | Open today's recommended problem |
@@ -112,7 +103,6 @@ Configure the path if it is not auto-detected:
 | `codeforces.cppFlags` | `-std=c++17 -O2 -Wall -Wextra` | C++ compiler flags |
 | `codeforces.pythonCommand` | `python3` | Python interpreter |
 | `codeforces.javaCommand` | `java` | Java command |
-| `codeforces.chromeExecutablePath` | `""` | Path to Chrome/Chromium for submission |
 | `codeforces.enableBrowserExtraction` | `true` | Browser-assisted problem import on 403 |
 | `codeforces.autoOpenContestProblems` | `false` | Auto-open all problems when viewing a live contest |
 | `codeforces.contestReminders` | `true` | Show notification before contests start |
@@ -176,7 +166,6 @@ Credentials are stored securely in VS Code's **SecretStorage** — never in plai
 
 When editing a solution file (`cf_*.cpp`, `cf_*.py`, etc.), action buttons appear at the top:
 
-- **Submit** — submit to Codeforces
 - **Run Tests** — run all sample test cases
 - **Import Samples** — import from clipboard
 
@@ -187,8 +176,6 @@ When editing a solution file (`cf_*.cpp`, `cf_*.py`, etc.), action buttons appea
 **Problem statement shows a fallback page (403)?**
 Enable `codeforces.enableBrowserExtraction` and configure `codeforces.chromeExecutablePath`. The extension will open Chrome, let you complete any verification, then extract the statement automatically.
 
-**Submission not working?**
-A local Chrome/Chromium installation is required. Check `codeforces.chromeExecutablePath`. On first use, log into Codeforces in the opened browser window; subsequent submissions reuse the session.
 
 **Tests not running?**
 Ensure the required compiler/interpreter is on your PATH. Check `codeforces.cppCompiler` and `codeforces.pythonCommand`.

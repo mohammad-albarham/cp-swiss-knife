@@ -13,6 +13,7 @@ import { ProblemPreview } from '../views/problemPreview';
 import { SolvedProblemsPanel } from '../views/solvedProblemsPanel';
 import { ContestDetailPanel } from '../views/contestDetailPanel';
 import { StandingsPanel } from '../views/standingsPanel';
+import { ProfileSummaryPanel } from '../views/profileSummaryPanel';
 import { Problem, Contest, SupportedLanguage, LANGUAGE_CONFIGS, TestCase } from '../api/types';
 import { WEB_BASE_URL, WEB_ENDPOINTS } from '../api/endpoints';
 import * as fs from 'fs';
@@ -45,7 +46,11 @@ export function registerCommands(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.commands.registerCommand('codeforces.showProfile', async () => {
       const authService = getAuthService();
-      await authService.showProfile();
+      if (!authService.isLoggedIn()) {
+        vscode.window.showWarningMessage('Please login first to view your profile.');
+        return;
+      }
+      await ProfileSummaryPanel.show(context);
     })
   );
 
