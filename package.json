@@ -1,9 +1,9 @@
 {
-  "name": "vscode-codeforces",
-  "displayName": "Codeforces",
-  "description": "Solve Codeforces problems directly in VS Code - browse problems, participate in contests, submit solutions, and track your progress",
+  "name": "cp-swiss-knife",
+  "displayName": "CP Swiss Knife",
+  "description": "Competitive Programming Swiss Knife — solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
   "version": "0.2.0",
-  "publisher": "codeforces-extension",
+  "publisher": "mohammad-albarham",
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/vscode-codeforces"
+    "url": "https://github.com/mohammad-albarham/cp-swiss-knife"
   },
   "activationEvents": [
     "onStartupFinished"
