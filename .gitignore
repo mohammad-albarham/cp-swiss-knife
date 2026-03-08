@@ -6,3 +6,8 @@ node_modules
 .DS_Store
 *.log
 .env
+
+# Internal Documentation
+UI_UX_IMPROVEMENTS.md
+CLAUDE.md
+CODEFORCES_EXTENSION_PLAN.md
