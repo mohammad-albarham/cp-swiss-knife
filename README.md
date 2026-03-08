@@ -7,7 +7,7 @@
     <a href="https://open-vsx.org/extension/albarham/cp-swiss-knife"><strong>Open VSX Registry</strong></a>
   </p>
   <p>
-    <img src="https://img.shields.io/badge/version-0.2.1-blue" alt="Version" />
+    <img src="https://img.shields.io/badge/version-0.2.2-blue" alt="Version" />
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License" />
   </p>
 </div>
@@ -33,6 +33,9 @@ Solve Codeforces problems directly in VS Code — browse problems, join contests
 - **Import Samples from Clipboard** — paste the Examples section from any Codeforces problem page
 
 ### Local Testing
+
+![Local Testing Example](media/problem_test_example.png)
+
 - Dedicated **Test Results panel** with per-case pass/fail, diff view, input/output inspection, and rerun
 - **Custom Test** — run against any input you type
 - Supports C++, Python, Java, Kotlin, Rust, Go, C#, JavaScript

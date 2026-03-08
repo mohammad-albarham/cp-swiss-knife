@@ -5,6 +5,7 @@ src/**
 test/**
 webview/**
 templates/**
+out/**
 out/test/**
 *.ts
 !*.d.ts
@@ -17,6 +18,19 @@ UI_UX_IMPROVEMENTS.md
 CODEFORCES_EXTENSION_PLAN.md
 CLAUDE.md
 vscode-codeforces-*.vsix
+cp-swiss-knife-*.vsix
 package-lock.json
+esbuild.mjs
+.tmp-vsix-smoke/**
+
+node_modules/playwright-core/bin/**
+node_modules/playwright-core/cli.js
+node_modules/playwright-core/index.mjs
+node_modules/playwright-core/index.d.ts
+node_modules/playwright-core/README.md
+node_modules/playwright-core/NOTICE
+node_modules/playwright-core/ThirdPartyNotices.txt
+node_modules/playwright-core/types/**
+node_modules/playwright-core/lib/cli/**
 
 .gemini/**

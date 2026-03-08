@@ -5,6 +5,21 @@ All notable changes to the "vscode-codeforces" extension will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2026-03-08
+
+### Fixed
+- Duplicate "Input" and "Output" headers in Problem Preview when switching problems
+- Minor UI alignment issues in Profile view
+
+### Added
+- Support for Open VSX Registry deployment
+
+## [0.2.1] - 2026-03-08
+
+### Fixed
+- Problem statement parsing for certain Codeforces HTML structures
+- Local testing bug where some sample inputs were not correctly captured
+
 ## [0.2.0] - 2026-03-08
 
 ### Added

@@ -134,11 +134,32 @@ export function registerCommands(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand('codeforces.previewProblem', async (
-      contestId: number,
-      index: string,
-      name: string
+      contestIdOrUri: number | vscode.Uri,
+      index?: string,
+      name?: string
     ) => {
-      await ProblemPreview.show(context, contestId, index, name);
+      let contestId: number;
+      if (contestIdOrUri instanceof vscode.Uri || contestIdOrUri === undefined) {
+        const filePath = contestIdOrUri instanceof vscode.Uri
+          ? contestIdOrUri.fsPath
+          : vscode.window.activeTextEditor?.document.uri.fsPath;
+        if (!filePath) {
+          vscode.window.showErrorMessage('No active file');
+          return;
+        }
+        const metadataPath = path.join(path.dirname(filePath), '.problem.json');
+        if (!fs.existsSync(metadataPath)) {
+          vscode.window.showErrorMessage('No problem metadata found. Open the problem from the Problems view first.');
+          return;
+        }
+        const meta = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+        contestId = meta.contestId;
+        index = meta.index;
+        name = meta.name;
+      } else {
+        contestId = contestIdOrUri;
+      }
+      await ProblemPreview.show(context, contestId, index!, name!);
     })
   );
 
@@ -288,9 +309,9 @@ export function registerCommands(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('codeforces.customTest', async () => {
-      const editor = vscode.window.activeTextEditor;
-      if (!editor) {
+    vscode.commands.registerCommand('codeforces.customTest', async (targetFilePath?: string | vscode.Uri) => {
+      const filePath = (targetFilePath instanceof vscode.Uri ? targetFilePath.fsPath : targetFilePath) ?? vscode.window.activeTextEditor?.document.uri.fsPath;
+      if (!filePath) {
         vscode.window.showErrorMessage('No active file');
         return;
       }
@@ -302,13 +323,17 @@ export function registerCommands(context: vscode.ExtensionContext): void {
 
       if (!input) { return; }
 
-      await editor.document.save();
+      const editor = vscode.window.visibleTextEditors.find(e => e.document.uri.fsPath === filePath)
+        ?? vscode.window.activeTextEditor;
+      if (editor && editor.document.uri.fsPath === filePath) {
+        await editor.document.save();
+      }
 
       const testService = getTestService();
       const formattedInput = input.replace(/\\n/g, '\n');
 
       try {
-        const output = await testService.runCustomTest(editor.document.uri.fsPath, formattedInput);
+        const output = await testService.runCustomTest(filePath, formattedInput);
         const outputChannel = vscode.window.createOutputChannel('Codeforces Custom Test');
         outputChannel.clear();
         outputChannel.appendLine('--- Input ---');
@@ -365,8 +390,8 @@ export function registerCommands(context: vscode.ExtensionContext): void {
 
   // Submission command
   context.subscriptions.push(
-    vscode.commands.registerCommand('codeforces.submit', async (target?: string) => {
-      const filePath = target ?? vscode.window.activeTextEditor?.document.uri.fsPath;
+    vscode.commands.registerCommand('codeforces.submit', async (target?: string | vscode.Uri) => {
+      const filePath = (target instanceof vscode.Uri ? target.fsPath : target) ?? vscode.window.activeTextEditor?.document.uri.fsPath;
       if (!filePath) {
         vscode.window.showErrorMessage('No active file');
         return;
@@ -783,8 +808,11 @@ export function registerCommands(context: vscode.ExtensionContext): void {
 }
 
 async function resolveSolutionFilePath(
-  target?: string | { contestId: number; index: string }
+  target?: string | { contestId: number; index: string } | vscode.Uri
 ): Promise<string | undefined> {
+  if (target instanceof vscode.Uri) {
+    target = target.fsPath;
+  }
   if (typeof target === 'string') {
     return target;
   }
@@ -932,8 +960,8 @@ function getSolutionsBaseFolder(): string {
   return configured.replace(/^~(?=$|\/)/, os.homedir());
 }
 
-function getRunTestsMissingFileMessage(target?: string | { contestId: number; index: string }): string {
-  if (target && typeof target !== 'string') {
+function getRunTestsMissingFileMessage(target?: string | { contestId: number; index: string } | vscode.Uri): string {
+  if (target && typeof target !== 'string' && !(target instanceof vscode.Uri) && target.contestId) {
     return `No generated solution file was found for ${target.contestId}${target.index}. Use Open in Editor first.`;
   }
 

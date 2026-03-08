@@ -3,6 +3,7 @@ import * as cheerio from 'cheerio';
 import type { BrowserContext, Page } from 'playwright-core';
 import * as vscode from 'vscode';
 import * as fs from 'fs';
+import { createRequire } from 'module';
 import * as path from 'path';
 import { WEB_BASE_URL, WEB_ENDPOINTS } from '../api/endpoints';
 import { getContestsExplorer } from '../views/contestsExplorer';
@@ -12,11 +13,17 @@ import { getStorageService } from './storageService';
 import { codeforcesApi } from '../api';
 import { logger } from '../utils/logger';
 
+const nodeRequire = createRequire(__filename);
+
 export class SubmissionService {
   private client: AxiosInstance;
   private outputChannel: vscode.OutputChannel;
   private cookies: string = '';
   private csrf: string = '';
+
+  private loadPlaywright(): typeof import('playwright-core') {
+    return nodeRequire('playwright-core') as typeof import('playwright-core');
+  }
 
   constructor() {
     this.client = axios.create({
@@ -79,13 +86,21 @@ export class SubmissionService {
           !$elem.hasClass('input-specification') &&
           !$elem.hasClass('output-specification') &&
           !$elem.hasClass('sample-tests') &&
-          !$elem.hasClass('note')) {
+          !$elem.hasClass('note') &&
+          !$elem.hasClass('section-title')) {
+        // Also remove any nested section titles or standard headers that might be duplicates
+        $elem.find('.section-title, h1, h2, h3, h4, h5, h6').remove();
         statement += $elem.html() || '';
       }
     });
 
-    const inputSpecification = problemStatement.find('.input-specification').html() || '';
-    const outputSpecification = problemStatement.find('.output-specification').html() || '';
+    const $inputSpec = problemStatement.find('.input-specification');
+    $inputSpec.find('.section-title, h1, h2, h3, h4, h5, h6').remove();
+    const inputSpecification = $inputSpec.html() || '';
+
+    const $outputSpec = problemStatement.find('.output-specification');
+    $outputSpec.find('.section-title, h1, h2, h3, h4, h5, h6').remove();
+    const outputSpecification = $outputSpec.html() || '';
 
     const sampleTests: TestCase[] = [];
     const inputs = problemStatement.find('.sample-test .input pre');
@@ -97,7 +112,9 @@ export class SubmissionService {
       sampleTests.push({ input, output });
     });
 
-    const notes = problemStatement.find('.note').html() || undefined;
+    const $note = problemStatement.find('.note');
+    $note.find('.section-title, h1, h2, h3, h4, h5, h6').remove();
+    const notes = $note.html() || undefined;
 
     const tags: string[] = [];
     $('.tag-box').each((_, elem) => {
@@ -140,7 +157,7 @@ export class SubmissionService {
     }
 
     const problemUrl = `${WEB_BASE_URL}${WEB_ENDPOINTS.problem(contestId, index)}`;
-    const { chromium } = await import('playwright-core');
+    const { chromium } = this.loadPlaywright();
     const browser = await chromium.launch({
       headless: false,
       executablePath
@@ -365,7 +382,7 @@ export class SubmissionService {
     contestId: number,
     index: string
   ): Promise<{ context: BrowserContext; page: Page }> {
-    const { chromium } = await import('playwright-core');
+    const { chromium } = this.loadPlaywright();
     const storageRoot = path.join(getStorageService().getGlobalStoragePath(), 'browser-submit');
     fs.mkdirSync(storageRoot, { recursive: true });
 

@@ -6,133 +6,138 @@ import { SupportedLanguage, LANGUAGE_CONFIGS, ProblemDetails, TestCase } from '.
 
 const DEFAULT_TEMPLATES: Record<SupportedLanguage, string> = {
   cpp: `// Problem: {problemName}
-// Contest: {contestId}
+// Contest: {contestId} | Index: {index}
 // URL: https://codeforces.com/contest/{contestId}/problem/{index}
-// Memory Limit: {memoryLimit}
-// Time Limit: {timeLimit}
+// Rating: {rating} | Tags: {tags}
+// Memory: {memoryLimit} | Time: {timeLimit}
+// Author: {author}
 
-#include <bits/stdc++.h>
-using namespace std;
 
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
 
-    // Your solution here
-
-    return 0;
-}
 `,
 
   python: `# Problem: {problemName}
-# Contest: {contestId}
+# Contest: {contestId} | Index: {index}
 # URL: https://codeforces.com/contest/{contestId}/problem/{index}
-# Memory Limit: {memoryLimit}
-# Time Limit: {timeLimit}
+# Rating: {rating} | Tags: {tags}
+# Memory: {memoryLimit} | Time: {timeLimit}
+# Author: {author}
 
-# Your solution here
 `,
 
   java: `// Problem: {problemName}
-// Contest: {contestId}
+// Contest: {contestId} | Index: {index}
 // URL: https://codeforces.com/contest/{contestId}/problem/{index}
-// Memory Limit: {memoryLimit}
-// Time Limit: {timeLimit}
+// Rating: {rating} | Tags: {tags}
+// Memory: {memoryLimit} | Time: {timeLimit}
+// Author: {author}
 
-import java.util.*;
-import java.io.*;
-
-public class Main {
-  public static void main(String[] args) throws Exception {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    PrintWriter out = new PrintWriter(new BufferedOutputStream(System.out));
-
-    // Your solution here
-
-        out.close();
-    }
-}
 `,
 
-  kotlin: `// Problem: {problemName}
-// Contest: {contestId}
-// URL: https://codeforces.com/contest/{contestId}/problem/{index}
-// Memory Limit: {memoryLimit}
-// Time Limit: {timeLimit}
-
-fun main() {
-    // Your solution here
-}
-`,
+  kotlin: '// Problem: {problemName}\n' +
+'// Contest: {contestId} | Index: {index}\n' +
+'// URL: https://codeforces.com/contest/{contestId}/problem/{index}\n' +
+'// Rating: {rating} | Tags: {tags}\n' +
+'// Memory: {memoryLimit} | Time: {timeLimit}\n' +
+'// Author: {author}\n\n' +
+'import java.util.*\n' +
+'import java.io.*\n\n' +
+'private val br = System.`in`.bufferedReader()\n' +
+'private val out = PrintWriter(System.out)\n' +
+'private var st = StringTokenizer("")\n\n' +
+'private fun next(): String {\n' +
+'  while (!st.hasMoreTokens()) st = StringTokenizer(br.readLine())\n' +
+'  return st.nextToken()\n' +
+'}\n' +
+'private fun nextInt() = next().toInt()\n' +
+'private fun nextLong() = next().toLong()\n\n' +
+'fun solve() {\n' +
+'  // Your solution here\n' +
+'}\n\n' +
+'fun main() {\n' +
+'  val t = 1\n' +
+'  // val t = nextInt()\n' +
+'  repeat(t) {\n' +
+'    solve()\n' +
+'  }\n' +
+'  out.flush()\n' +
+'}\n',
 
   rust: `// Problem: {problemName}
-// Contest: {contestId}
+// Contest: {contestId} | Index: {index}
 // URL: https://codeforces.com/contest/{contestId}/problem/{index}
-// Memory Limit: {memoryLimit}
-// Time Limit: {timeLimit}
+// Rating: {rating} | Tags: {tags}
+// Memory: {memoryLimit} | Time: {timeLimit}
+// Author: {author}
 
-use std::io::{self, Read};
-
-fn main() {
-    let mut input = String::new();
-    io::stdin().read_to_string(&mut input).unwrap();
-
-    // Your solution here
-}
 `,
 
   go: `// Problem: {problemName}
-// Contest: {contestId}
+// Contest: {contestId} | Index: {index}
 // URL: https://codeforces.com/contest/{contestId}/problem/{index}
-// Memory Limit: {memoryLimit}
-// Time Limit: {timeLimit}
+// Rating: {rating} | Tags: {tags}
+// Memory: {memoryLimit} | Time: {timeLimit}
+// Author: {author}
 
-package main
 
-import (
-    "bufio"
-    "os"
-)
-
-var reader = bufio.NewReader(os.Stdin)
-var writer = bufio.NewWriter(os.Stdout)
-
-func main() {
-    defer writer.Flush()
-
-    _ = reader
-
-    // Your solution here
-}
 `,
 
   csharp: `// Problem: {problemName}
-// Contest: {contestId}
+// Contest: {contestId} | Index: {index}
 // URL: https://codeforces.com/contest/{contestId}/problem/{index}
-// Memory Limit: {memoryLimit}
-// Time Limit: {timeLimit}
+// Rating: {rating} | Tags: {tags}
+// Memory: {memoryLimit} | Time: {timeLimit}
+// Author: {author}
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 class Program {
-    static void Main() {
-        // Your solution here
+  static StreamReader sr = new StreamReader(Console.OpenStandardInput());
+  static StreamWriter sw = new StreamWriter(Console.OpenStandardOutput());
+
+  static void Main() {
+    int t = 1;
+    // t = int.Parse(sr.ReadLine());
+    while (t-- > 0) {
+      Solve();
     }
+    sw.Flush();
+  }
+
+  static void Solve() {
+    // Your solution here
+  }
 }
 `,
 
   javascript: `// Problem: {problemName}
-// Contest: {contestId}
+// Contest: {contestId} | Index: {index}
 // URL: https://codeforces.com/contest/{contestId}/problem/{index}
-// Memory Limit: {memoryLimit}
-// Time Limit: {timeLimit}
+// Rating: {rating} | Tags: {tags}
+// Memory: {memoryLimit} | Time: {timeLimit}
+// Author: {author}
 
 'use strict';
 
-const fs = require('fs');
-const input = fs.readFileSync(0, 'utf8');
+const lines = require('fs').readFileSync('/dev/stdin', 'utf8').split('\\n');
+let lineIndex = 0;
 
-// Your solution here
+function read() { return lines[lineIndex++].trim(); }
+function readInt() { return parseInt(read()); }
+function readInts() { return read().split(' ').map(Number); }
+
+function solve() {
+  // Your solution here
+}
+
+const t = 1;
+// const t = readInt();
+for (let i = 0; i < t; i++) {
+  solve();
+}
 `
 };
 
@@ -170,6 +175,24 @@ int main() {
 
   return 0;
 }
+`,
+  `// Problem: {problemName}
+// Contest: {contestId}
+// URL: https://codeforces.com/contest/{contestId}/problem/{index}
+// Memory Limit: {memoryLimit}
+// Time Limit: {timeLimit}
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    // Your solution here
+
+    return 0;
+}
 `],
   python: [`# Problem: {problemName}
 # Contest: {contestId}
@@ -196,6 +219,14 @@ def main():
 
 if __name__ == "__main__":
   main()
+`,
+  `# Problem: {problemName}
+# Contest: {contestId}
+# URL: https://codeforces.com/contest/{contestId}/problem/{index}
+# Memory Limit: {memoryLimit}
+# Time Limit: {timeLimit}
+
+# Your solution here
 `],
   java: [`// Problem: {problemName}
 // Contest: {contestId}
@@ -234,6 +265,26 @@ public class Main {
   static long nextLong() throws IOException { return Long.parseLong(next()); }
   static double nextDouble() throws IOException { return Double.parseDouble(next()); }
 }
+`,
+  `// Problem: {problemName}
+// Contest: {contestId}
+// URL: https://codeforces.com/contest/{contestId}/problem/{index}
+// Memory Limit: {memoryLimit}
+// Time Limit: {timeLimit}
+
+import java.util.*;
+import java.io.*;
+
+public class Main {
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    PrintWriter out = new PrintWriter(new BufferedOutputStream(System.out));
+
+    // Your solution here
+
+        out.close();
+    }
+}
 `],
   kotlin: [`// Problem: {problemName}
 // Contest: {contestId}
@@ -253,6 +304,16 @@ fun main() {
   repeat(t) {
     solve()
   }
+}
+`,
+  `// Problem: {problemName}
+// Contest: {contestId}
+// URL: https://codeforces.com/contest/{contestId}/problem/{index}
+// Memory Limit: {memoryLimit}
+// Time Limit: {timeLimit}
+
+fun main() {
+    // Your solution here
 }
 `],
   rust: [`// Problem: {problemName}
@@ -278,6 +339,21 @@ fn main() {
   for _ in 0..t {
     solve(&mut reader, &mut writer);
   }
+}
+`,
+  `// Problem: {problemName}
+// Contest: {contestId}
+// URL: https://codeforces.com/contest/{contestId}/problem/{index}
+// Memory Limit: {memoryLimit}
+// Time Limit: {timeLimit}
+
+use std::io::{self, Read};
+
+fn main() {
+    let mut input = String::new();
+    io::stdin().read_to_string(&mut input).unwrap();
+
+    // Your solution here
 }
 `],
   go: [`// Problem: {problemName}
@@ -313,6 +389,30 @@ func main() {
     solve()
   }
 }
+`,
+  `// Problem: {problemName}
+// Contest: {contestId}
+// URL: https://codeforces.com/contest/{contestId}/problem/{index}
+// Memory Limit: {memoryLimit}
+// Time Limit: {timeLimit}
+
+package main
+
+import (
+    "bufio"
+    "os"
+)
+
+var reader = bufio.NewReader(os.Stdin)
+var writer = bufio.NewWriter(os.Stdout)
+
+func main() {
+    defer writer.Flush()
+
+    _ = reader
+
+    // Your solution here
+}
 `],
   csharp: [`// Problem: {problemName}
 // Contest: {contestId}
@@ -336,6 +436,20 @@ class Program {
   static void Solve() {
     // Your solution here
   }
+}
+`,
+  `// Problem: {problemName}
+// Contest: {contestId}
+// URL: https://codeforces.com/contest/{contestId}/problem/{index}
+// Memory Limit: {memoryLimit}
+// Time Limit: {timeLimit}
+
+using System;
+
+class Program {
+    static void Main() {
+        // Your solution here
+    }
 }
 `],
   javascript: [`// Problem: {problemName}
@@ -366,6 +480,19 @@ rl.on('close', () => {
 function solve() {
   // Your solution here
 }
+`,
+  `// Problem: {problemName}
+// Contest: {contestId}
+// URL: https://codeforces.com/contest/{contestId}/problem/{index}
+// Memory Limit: {memoryLimit}
+// Time Limit: {timeLimit}
+
+'use strict';
+
+const fs = require('fs');
+const input = fs.readFileSync(0, 'utf8');
+
+// Your solution here
 `]
 };
 
@@ -390,12 +517,20 @@ export class TemplateService {
   }
 
   applyTemplate(template: string, problem: ProblemDetails): string {
+    const config = vscode.workspace.getConfiguration('codeforces');
+    const author = config.get<string>('author') || '';
+    const rating = problem.rating !== undefined ? String(problem.rating) : 'Unrated';
+    const tags = problem.tags?.length > 0 ? problem.tags.join(', ') : 'none';
+
     return template
       .replace(/{problemName}/g, problem.name)
       .replace(/{contestId}/g, String(problem.contestId))
       .replace(/{index}/g, problem.index)
       .replace(/{memoryLimit}/g, problem.memoryLimit)
-      .replace(/{timeLimit}/g, problem.timeLimit);
+      .replace(/{timeLimit}/g, problem.timeLimit)
+      .replace(/{rating}/g, rating)
+      .replace(/{tags}/g, tags)
+      .replace(/{author}/g, author);
   }
 
   async createSolutionFile(

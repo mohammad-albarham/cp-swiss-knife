@@ -113,43 +113,47 @@ async function updateAuthContext(isLoggedIn: boolean): Promise<void> {
 }
 
 class CodeforcesCodeLensProvider implements vscode.CodeLensProvider {
-  provideCodeLenses(): vscode.CodeLens[] {
+  provideCodeLenses(document: vscode.TextDocument): vscode.CodeLens[] {
     const codeLenses: vscode.CodeLens[] = [];
     const topOfDocument = new vscode.Range(0, 0, 0, 0);
+    const filePath = document.uri.fsPath;
 
     // Submit button
     codeLenses.push(
       new vscode.CodeLens(topOfDocument, {
-        title: '$(cloud-upload) Submit',
+        title: '$(cloud-upload)  Submit',
         command: 'codeforces.submit',
-        tooltip: 'Submit to Codeforces'
+        tooltip: 'Submit solution to Codeforces',
+        arguments: [filePath]
       })
     );
 
     // Run tests button
     codeLenses.push(
       new vscode.CodeLens(topOfDocument, {
-        title: '$(play) Run Tests',
+        title: '$(play-circle)  Run Tests',
         command: 'codeforces.runTests',
-        tooltip: 'Run sample test cases'
+        tooltip: 'Run all sample test cases',
+        arguments: [filePath]
       })
     );
 
     // Custom test button
     codeLenses.push(
       new vscode.CodeLens(topOfDocument, {
-        title: '$(beaker) Custom Test',
+        title: '$(beaker)  Custom Test',
         command: 'codeforces.customTest',
-        tooltip: 'Run with custom input'
+        tooltip: 'Run with custom input',
+        arguments: [filePath]
       })
     );
 
     // Preview problem
     codeLenses.push(
       new vscode.CodeLens(topOfDocument, {
-        title: '$(book) Preview',
+        title: '$(preview)  Preview',
         command: 'codeforces.previewProblem',
-        tooltip: 'Open problem preview'
+        tooltip: 'Open problem statement'
       })
     );
 
