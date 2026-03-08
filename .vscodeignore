@@ -18,3 +18,5 @@ CODEFORCES_EXTENSION_PLAN.md
 CLAUDE.md
 vscode-codeforces-*.vsix
 package-lock.json
+
+.gemini/**

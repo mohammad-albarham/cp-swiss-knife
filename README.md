@@ -3,6 +3,10 @@
   <h1>Competitive Programming Swiss Knife</h1>
   <p><b>The ultimate unified toolkit for competitive programmers in VS Code.</b></p>
   <p>
+    <a href="https://marketplace.visualstudio.com/items?itemName=albarham.cp-swiss-knife&ssr=false#overview"><strong>VS Code Marketplace</strong></a> •
+    <a href="https://open-vsx.org/extension/albarham/cp-swiss-knife"><strong>Open VSX Registry</strong></a>
+  </p>
+  <p>
     <img src="https://img.shields.io/badge/version-0.2.0-blue" alt="Version" />
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License" />
   </p>
@@ -43,11 +47,17 @@ Solve Codeforces problems directly in VS Code — browse problems, join contests
 - One-click contest registration
 
 ### User Profile Dashboard
+
+![User Profile Dashboard Example](media/profile.png)
+
 - Current rating, max rating, rank, contribution, and registration date
 - **Current Streak** and **Longest Streak** — consecutive daily solve streaks
 - Interactive **Rating Graph** with full contest history table
 - Problems solved by rating bucket and top solved tags
 - **Browse Solved Problems** — searchable, filterable panel with bar/pie rating chart, tag filter, sort, and export
+
+  ![Browse Solved Problems Example](media/solved_problems.png)
+
 - **Submissions History** view with verdict filtering (AC, WA, TLE, MLE, RTE, CE)
 
 ### Template Management
