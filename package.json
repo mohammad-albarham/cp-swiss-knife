@@ -1,8 +1,8 @@
 {
   "name": "cp-swiss-knife",
   "displayName": "CP Swiss Knife",
-  "description": "Competitive Programming Swiss Knife — solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
-  "version": "0.2.0",
+  "description": "Competitive Programming Swiss Knife \u2014 solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
+  "version": "0.2.1",
   "publisher": "albarham",
   "icon": "media/icon.png",
   "galleryBanner": {
@@ -36,202 +36,202 @@
     "commands": [
       {
         "command": "codeforces.login",
-        "title": "Codeforces: Login",
+        "title": "CP Swiss Knife: Login",
         "icon": "$(sign-in)"
       },
       {
         "command": "codeforces.logout",
-        "title": "Codeforces: Logout",
+        "title": "CP Swiss Knife: Logout",
         "icon": "$(sign-out)"
       },
       {
         "command": "codeforces.configureApiCredentials",
-        "title": "Codeforces: Configure API Credentials",
+        "title": "CP Swiss Knife: Configure API Credentials",
         "icon": "$(key)"
       },
       {
         "command": "codeforces.showProfile",
-        "title": "Codeforces: Show Profile",
+        "title": "CP Swiss Knife: Show Profile",
         "icon": "$(account)"
       },
       {
         "command": "codeforces.refreshProfile",
-        "title": "Codeforces: Refresh Profile Snapshot",
+        "title": "CP Swiss Knife: Refresh Profile Snapshot",
         "icon": "$(refresh)"
       },
       {
         "command": "codeforces.showRatingGraph",
-        "title": "Codeforces: Show Rating Graph",
+        "title": "CP Swiss Knife: Show Rating Graph",
         "icon": "$(graph)"
       },
       {
         "command": "codeforces.openProfileOnWeb",
-        "title": "Codeforces: Open Profile on Codeforces",
+        "title": "CP Swiss Knife: Open Profile on Codeforces",
         "icon": "$(globe)"
       },
       {
         "command": "codeforces.viewProfile",
-        "title": "Codeforces: Focus Profile View",
+        "title": "CP Swiss Knife: Focus Profile View",
         "icon": "$(layout-sidebar-right)"
       },
       {
         "command": "codeforces.refreshProblems",
-        "title": "Codeforces: Refresh Problems",
+        "title": "CP Swiss Knife: Refresh Problems",
         "icon": "$(refresh)"
       },
       {
         "command": "codeforces.openProblem",
-        "title": "Codeforces: Open Problem"
+        "title": "CP Swiss Knife: Open Problem"
       },
       {
         "command": "codeforces.searchProblem",
-        "title": "Codeforces: Search Problems",
+        "title": "CP Swiss Knife: Search Problems",
         "icon": "$(search)"
       },
       {
         "command": "codeforces.previewProblem",
-        "title": "Codeforces: Preview Problem"
+        "title": "CP Swiss Knife: Preview Problem"
       },
       {
         "command": "codeforces.openProblemInVsCode",
-        "title": "Codeforces: Open Problem in VS Code"
+        "title": "CP Swiss Knife: Open Problem in VS Code"
       },
       {
         "command": "codeforces.submit",
-        "title": "Codeforces: Submit Solution",
+        "title": "CP Swiss Knife: Submit Solution",
         "icon": "$(cloud-upload)"
       },
       {
         "command": "codeforces.runTests",
-        "title": "Codeforces: Run Sample Tests",
+        "title": "CP Swiss Knife: Run Sample Tests",
         "icon": "$(play)"
       },
       {
         "command": "codeforces.customTest",
-        "title": "Codeforces: Run Custom Test"
+        "title": "CP Swiss Knife: Run Custom Test"
       },
       {
         "command": "codeforces.importSamplesFromClipboard",
-        "title": "Codeforces: Import Samples From Clipboard",
+        "title": "CP Swiss Knife: Import Samples From Clipboard",
         "icon": "$(clippy)"
       },
       {
         "command": "codeforces.refreshContests",
-        "title": "Codeforces: Refresh Contests",
+        "title": "CP Swiss Knife: Refresh Contests",
         "icon": "$(refresh)"
       },
       {
         "command": "codeforces.openContest",
-        "title": "Codeforces: Open Contest"
+        "title": "CP Swiss Knife: Open Contest"
       },
       {
         "command": "codeforces.registerContest",
-        "title": "Codeforces: Register for Contest"
+        "title": "CP Swiss Knife: Register for Contest"
       },
       {
         "command": "codeforces.viewStandings",
-        "title": "Codeforces: View Standings"
+        "title": "CP Swiss Knife: View Standings"
       },
       {
         "command": "codeforces.virtualContest",
-        "title": "Codeforces: Start Virtual Contest"
+        "title": "CP Swiss Knife: Start Virtual Contest"
       },
       {
         "command": "codeforces.viewContests",
-        "title": "Codeforces: Focus Contests View"
+        "title": "CP Swiss Knife: Focus Contests View"
       },
       {
         "command": "codeforces.viewSubmissions",
-        "title": "Codeforces: View Submissions"
+        "title": "CP Swiss Knife: View Submissions"
       },
       {
         "command": "codeforces.openEditorial",
-        "title": "Codeforces: Open Editorial"
+        "title": "CP Swiss Knife: Open Editorial"
       },
       {
         "command": "codeforces.setLanguage",
-        "title": "Codeforces: Set Default Language"
+        "title": "CP Swiss Knife: Set Default Language"
       },
       {
         "command": "codeforces.starProblem",
-        "title": "Codeforces: Star Problem",
+        "title": "CP Swiss Knife: Star Problem",
         "icon": "$(star-empty)"
       },
       {
         "command": "codeforces.unstarProblem",
-        "title": "Codeforces: Unstar Problem",
+        "title": "CP Swiss Knife: Unstar Problem",
         "icon": "$(star-full)"
       },
       {
         "command": "codeforces.filterByTag",
-        "title": "Codeforces: Filter by Tag"
+        "title": "CP Swiss Knife: Filter by Tag"
       },
       {
         "command": "codeforces.filterByRating",
-        "title": "Codeforces: Filter by Rating"
+        "title": "CP Swiss Knife: Filter by Rating"
       },
       {
         "command": "codeforces.clearFilters",
-        "title": "Codeforces: Clear Filters"
+        "title": "CP Swiss Knife: Clear Filters"
       },
       {
         "command": "codeforces.markProblemAsSolved",
-        "title": "Codeforces: Mark Problem as Solved",
+        "title": "CP Swiss Knife: Mark Problem as Solved",
         "icon": "$(check)"
       },
       {
         "command": "codeforces.unmarkProblemAsSolved",
-        "title": "Codeforces: Unmark Problem as Solved",
+        "title": "CP Swiss Knife: Unmark Problem as Solved",
         "icon": "$(circle-slash)"
       },
       {
         "command": "codeforces.openProblemOnWeb",
-        "title": "Codeforces: Open Problem on Codeforces",
+        "title": "CP Swiss Knife: Open Problem on Codeforces",
         "icon": "$(globe)"
       },
       {
         "command": "codeforces.viewProblemSubmissions",
-        "title": "Codeforces: View Problem Submissions",
+        "title": "CP Swiss Knife: View Problem Submissions",
         "icon": "$(history)"
       },
       {
         "command": "codeforces.refreshSubmissions",
-        "title": "Codeforces: Refresh Submissions",
+        "title": "CP Swiss Knife: Refresh Submissions",
         "icon": "$(refresh)"
       },
       {
         "command": "codeforces.filterSubmissions",
-        "title": "Codeforces: Filter Submissions"
+        "title": "CP Swiss Knife: Filter Submissions"
       },
       {
         "command": "codeforces.showSolvedProblems",
-        "title": "Codeforces: Show Solved Problems",
+        "title": "CP Swiss Knife: Show Solved Problems",
         "icon": "$(checklist)"
       },
       {
         "command": "codeforces.showStandings",
-        "title": "Codeforces: Show Standings"
+        "title": "CP Swiss Knife: Show Standings"
       },
       {
         "command": "codeforces.dailyProblem",
-        "title": "Codeforces: Daily Problem",
+        "title": "CP Swiss Knife: Daily Problem",
         "icon": "$(calendar)"
       },
       {
         "command": "codeforces.editTemplate",
-        "title": "Codeforces: Edit Language Template",
+        "title": "CP Swiss Knife: Edit Language Template",
         "icon": "$(edit)"
       },
       {
         "command": "codeforces.resetTemplate",
-        "title": "Codeforces: Reset Language Template to Default"
+        "title": "CP Swiss Knife: Reset Language Template to Default"
       }
     ],
     "viewsContainers": {
       "activitybar": [
         {
           "id": "codeforces",
-          "title": "Codeforces",
+          "title": "CP Swiss Knife",
           "icon": "media/codeforces.svg"
         }
       ]
@@ -263,7 +263,7 @@
     "viewsWelcome": [
       {
         "view": "codeforcesUser",
-        "contents": "Welcome to Codeforces!\n[Login](command:codeforces.login)\nLogin to view your profile, submit solutions, and track your progress.",
+        "contents": "Welcome to CP Swiss Knife!\n[Login](command:codeforces.login)\nLogin to view your profile, submit solutions, and track your progress.",
         "when": "!codeforces.isLoggedIn"
       }
     ],
@@ -404,7 +404,7 @@
       ]
     },
     "configuration": {
-      "title": "Codeforces",
+      "title": "CP Swiss Knife",
       "properties": {
         "codeforces.handle": {
           "type": "string",
