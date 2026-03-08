@@ -3,7 +3,12 @@
   "displayName": "CP Swiss Knife",
   "description": "Competitive Programming Swiss Knife — solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
   "version": "0.2.0",
-  "publisher": "mohammad-albarham",
+  "publisher": "albarham",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#0D1B2A",
+    "theme": "dark"
+  },
   "license": "MIT",
   "engines": {
     "vscode": "^1.85.0"

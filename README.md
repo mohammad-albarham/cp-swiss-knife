@@ -200,7 +200,7 @@ Run `Codeforces: Refresh Profile Snapshot`. Stats require a successful API fetch
 
 ## Contributing
 
-Issues and pull requests welcome on [GitHub](https://github.com/your-username/vscode-codeforces).
+Issues and pull requests welcome on [GitHub](https://github.com/mohammad-albarham/cp-swiss-knife).
 
 ---
 
