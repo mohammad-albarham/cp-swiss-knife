@@ -21,7 +21,7 @@ const AUTO_REFRESH_INTERVAL = 60_000;
 
 export class StandingsPanel {
   private static currentPanel: vscode.WebviewPanel | undefined;
-  private static state: StandingsState | undefined;
+  static state: StandingsState | undefined;
   private static context: vscode.ExtensionContext | undefined;
   private static autoRefreshTimer: ReturnType<typeof setInterval> | undefined;
 
@@ -233,7 +233,7 @@ export class StandingsPanel {
     }
   }
 
-  private static getHtml(webview: vscode.Webview): string {
+  static getHtml(webview: vscode.Webview): string {
     const state = StandingsPanel.state;
     if (!state) {
       return '';

@@ -21,7 +21,7 @@ export class TestResultsPanel {
     this.currentState = state;
 
     const title = this.getTitle(state);
-    const column = vscode.window.activeTextEditor?.viewColumn ?? vscode.ViewColumn.Beside;
+    const column = vscode.ViewColumn.Beside;
 
     if (!this.currentPanel) {
       this.currentPanel = vscode.window.createWebviewPanel(
@@ -151,7 +151,7 @@ export class TestResultsPanel {
     return `Tests: ${path.basename(state.filePath)}`;
   }
 
-  private static getHtml(state: TestResultsPanelState): string {
+  static getHtml(state: TestResultsPanelState): string {
     const total = state.results.length;
     const passed = state.results.filter(result => result.passed).length;
     const hasFailure = total > 0 && passed !== total;

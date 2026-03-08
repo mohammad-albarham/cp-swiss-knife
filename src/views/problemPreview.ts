@@ -183,7 +183,7 @@ export class ProblemPreview {
     await vscode.window.showTextDocument(document, vscode.ViewColumn.One);
   }
 
-  private static getHtmlContent(problem: ProblemDetails): string {
+  static getHtmlContent(problem: ProblemDetails): string {
     const sampleTestsHtml = problem.sampleTests.length > 0
       ? problem.sampleTests.map((test, i) => `
       <div class="test-case">
@@ -298,6 +298,21 @@ export class ProblemPreview {
       font-size: 1.1em;
     }
 
+    /* Aggressively hide any nested or duplicate section titles */
+    .section-title .section-title,
+    .statement .section-title,
+    .note .section-title,
+    .section-title + .section-title {
+      display: none !important;
+    }
+
+    /* Hide standard headers that might be parsed from raw HTML */
+    .statement h1, .statement h2, .statement h3,
+    .section div h1, .section div h2, .section div h3,
+    .section div .section-title {
+      display: none !important;
+    }
+
     .statement {
       text-align: justify;
     }
@@ -367,7 +382,9 @@ export class ProblemPreview {
     }
 
     .tags {
-      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
     }
 
     .tag {
@@ -377,8 +394,6 @@ export class ProblemPreview {
       padding: 2px 8px;
       border-radius: 10px;
       font-size: 0.8em;
-      margin-right: 5px;
-      margin-bottom: 5px;
     }
 
     .rating {
@@ -405,6 +420,9 @@ export class ProblemPreview {
 <body>
   <div class="header">
     <h1>${problem.contestId}${problem.index}. ${problem.name}</h1>
+    <div class="tags" style="margin-top: 5px; margin-bottom: 10px;">
+      ${tagsHtml}
+    </div>
     <div class="limits">
       <span>⏱️ ${problem.timeLimit}</span>
       <span>💾 ${problem.memoryLimit}</span>
@@ -445,9 +463,6 @@ export class ProblemPreview {
   </div>
   ` : ''}
 
-  <div class="tags">
-    ${tagsHtml}
-  </div>
 
   <script>
     const vscode = acquireVsCodeApi();

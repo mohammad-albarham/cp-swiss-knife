@@ -169,7 +169,7 @@ export class ContestDetailPanel {
 </html>`;
   }
 
-  private static getHtml(webview: vscode.Webview, state: ContestDetailState): string {
+  static getHtml(webview: vscode.Webview, state: ContestDetailState): string {
     const nonce = getNonce();
 
     if (state.errorMessage) {
