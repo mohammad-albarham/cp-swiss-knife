@@ -15,5 +15,6 @@ tsconfig.json
 CHANGELOG.md
 UI_UX_IMPROVEMENTS.md
 CODEFORCES_EXTENSION_PLAN.md
+CLAUDE.md
 vscode-codeforces-*.vsix
 package-lock.json

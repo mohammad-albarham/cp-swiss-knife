@@ -5,6 +5,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 import { WEB_BASE_URL, WEB_ENDPOINTS } from '../api/endpoints';
+import { getContestsExplorer } from '../views/contestsExplorer';
 import { ProblemDetails, TestCase, Submission, SupportedLanguage, LANGUAGE_CONFIGS } from '../api/types';
 import { getAuthService } from './authService';
 import { getStorageService } from './storageService';
@@ -394,18 +395,26 @@ export class SubmissionService {
     `);
 
     const page = context.pages()[0] ?? await context.newPage();
-    const submitUrl = `${WEB_BASE_URL}/problemset/submit`;
+    let isRunningContest = false;
+    try {
+      isRunningContest = getContestsExplorer().getRunningContests().some(c => c.id === contestId);
+    } catch { /* contests explorer not ready, fall back to problemset submit */ }
+    const submitUrl = isRunningContest
+      ? `${WEB_BASE_URL}${WEB_ENDPOINTS.contestSubmit(contestId)}`
+      : `${WEB_BASE_URL}/problemset/submit`;
 
     this.outputChannel.appendLine(`Opening ${submitUrl}...`);
     await page.goto(submitUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
     await page.bringToFront();
-    await this.navigateToProblemSubmissionPage(page, contestId, index);
+    await this.navigateToProblemSubmissionPage(page, contestId, index, isRunningContest);
 
     return { context, page };
   }
 
-  private async navigateToProblemSubmissionPage(page: Page, contestId: number, index: string): Promise<void> {
-    const specificUrl = `${WEB_BASE_URL}/problemset/submit/${contestId}/${index}`;
+  private async navigateToProblemSubmissionPage(page: Page, contestId: number, index: string, isContest = false): Promise<void> {
+    const specificUrl = isContest
+      ? `${WEB_BASE_URL}${WEB_ENDPOINTS.contestSubmit(contestId)}/${index}`
+      : `${WEB_BASE_URL}/problemset/submit/${contestId}/${index}`;
     await page.goto(specificUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
   }
 
@@ -425,7 +434,14 @@ export class SubmissionService {
         throw new Error('Browser-based submission canceled');
       }
 
-      await page.goto(`${WEB_BASE_URL}/problemset/submit/${contestId}/${index}`, {
+      let isRunningContestRetry = false;
+      try {
+        isRunningContestRetry = getContestsExplorer().getRunningContests().some(c => c.id === contestId);
+      } catch { /* ignore */ }
+      const retryUrl = isRunningContestRetry
+        ? `${WEB_BASE_URL}${WEB_ENDPOINTS.contestSubmit(contestId)}/${index}`
+        : `${WEB_BASE_URL}/problemset/submit/${contestId}/${index}`;
+      await page.goto(retryUrl, {
         waitUntil: 'domcontentloaded',
         timeout: 60000
       });

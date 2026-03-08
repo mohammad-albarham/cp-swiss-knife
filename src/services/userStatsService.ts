@@ -82,6 +82,57 @@ export class UserStatsService {
       }
     }
 
+    // Compute solve streaks from AC submissions
+    const acDaySet = new Set<string>();
+    for (const submission of submissions) {
+      if (submission.verdict === 'OK' && submission.creationTimeSeconds) {
+        const day = new Date(submission.creationTimeSeconds * 1000).toISOString().slice(0, 10);
+        acDaySet.add(day);
+      }
+    }
+
+    const sortedDays = Array.from(acDaySet).sort().reverse(); // newest first
+    const todayStr = new Date().toISOString().slice(0, 10);
+    const yesterdayStr = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+
+    let currentStreak = 0;
+    if (sortedDays.length > 0) {
+      const streakStart = sortedDays[0] === todayStr || sortedDays[0] === yesterdayStr;
+      if (streakStart) {
+        currentStreak = 1;
+        for (let i = 1; i < sortedDays.length; i++) {
+          const prev = new Date(sortedDays[i - 1]);
+          const curr = new Date(sortedDays[i]);
+          const diffDays = Math.round((prev.getTime() - curr.getTime()) / 86400000);
+          if (diffDays === 1) {
+            currentStreak++;
+          } else {
+            break;
+          }
+        }
+      }
+    }
+
+    let longestStreak = 0;
+    if (sortedDays.length > 0) {
+      const asc = [...sortedDays].reverse(); // oldest first
+      let run = 1;
+      longestStreak = 1;
+      for (let i = 1; i < asc.length; i++) {
+        const prev = new Date(asc[i - 1]);
+        const curr = new Date(asc[i]);
+        const diffDays = Math.round((curr.getTime() - prev.getTime()) / 86400000);
+        if (diffDays === 1) {
+          run++;
+          if (run > longestStreak) {
+            longestStreak = run;
+          }
+        } else {
+          run = 1;
+        }
+      }
+    }
+
     const solvedProblemList = Array.from(solvedProblems.values());
     const ratingBuckets = RATING_RANGES.map(range => ({
       ...range,
@@ -116,6 +167,8 @@ export class UserStatsService {
       attemptedUnsolvedCount: attemptedProblemKeys.size - solvedProblems.size,
       acceptanceRate: submissions.length === 0 ? 0 : acceptedSubmissionCount / submissions.length,
       isPartial,
+      currentStreak,
+      longestStreak,
       mostDifficultSolved: mostDifficultSolved && mostDifficultSolved.contestId
         ? {
             contestId: mostDifficultSolved.contestId,

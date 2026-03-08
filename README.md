@@ -1,195 +1,212 @@
 # Codeforces for VS Code
 
-![Version](https://img.shields.io/badge/version-0.1.0-blue)
+![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-Solve Codeforces problems directly in VS Code! This extension brings the full Codeforces experience to your favorite editor.
+Solve Codeforces problems directly in VS Code — browse problems, join contests, run local tests, submit solutions, and track your progress without ever leaving the editor.
 
 ## Features
 
-### Problem Management
-- **Browse Problems**: Navigate through all Codeforces problems organized by rating, tags, or contest
-- **Search Problems**: Quickly find problems by ID or name
-- **Problem Preview**: View problem statements, constraints, and sample test cases in VS Code
-- **Star Problems**: Save favorite problems for later
+### Problem Explorer
+- **Browse** all problems organized by **Rating** (12 ranges), **Tags** (top 30), **Solved**, and **Starred**
+- **Daily Problem** — a fresh rating-appropriate challenge seeded daily
+- **Smart Recommendations** — top 20 personalized suggestions based on your current rating
+- Color-coded difficulty dots and green solved checkmarks
+- Full-text search by problem name or ID
+- Right-click context menu: Preview, Open on Codeforces, View Submissions, Mark/Unmark Solved, Star/Unstar
 
-![Problem Explorer](https://via.placeholder.com/800x400?text=Problem+Explorer+Screenshot)
+### Problem Preview
+- Rich in-extension problem statement with time/memory limits, sample cases, tags, and rating
+- **Open in Editor** — generates a ready-to-submit solution file from your language template
+- **Run Local Tests** button directly in the preview toolbar
+- **Import Samples from Clipboard** — paste the Examples section from any Codeforces problem page
 
-### Contest Integration
-- **Contest List**: View upcoming, running, and recent contests
-- **Live Countdown**: See time remaining for running contests in status bar
-- **Contest Registration**: Quick access to contest registration
-- **Virtual Participation**: Start virtual contests from VS Code
-
-![Contest Explorer](https://via.placeholder.com/800x400?text=Contest+Explorer+Screenshot)
+### Local Testing
+- Dedicated **Test Results panel** with per-case pass/fail, diff view, input/output inspection, and rerun
+- **Custom Test** — run against any input you type
+- After all samples pass, a **Submit to Codeforces** action appears targeting the exact tested file
+- Supports C++, Python, Java, Kotlin, Rust, Go, C#, JavaScript
 
 ### Code Submission
-- **Submit Solutions**: Submit your code directly from VS Code
-- **Verdict Tracking**: Real-time verdict updates with visual feedback
-- **Local Testing**: Run sample tests locally before submitting
-- **Custom Tests**: Test with your own input data
+- Submit with `Cmd/Ctrl+Alt+S` or the editor toolbar button
+- Uses a **persistent local Chrome/Chromium session** — no credentials stored in plain text
+- Automatically uses the **contest-specific submit URL** during running contests (correct language selector)
+- Real-time verdict polling with time/memory details in the Output channel
+- Anti-bot verification handling: pauses and lets you complete the challenge, then resumes
 
-### User Profile
-- **Rating Graph**: Visualize your rating history
-- **Statistics**: Track solved problems and contest participation
-- **Recent Submissions**: View your submission history
+### Contest Explorer
+- Upcoming, running, and recent contests with live countdowns in the sidebar and status bar
+- **Contest Detail Panel** — opens inside VS Code showing your rank, rating change, hacks, and per-problem status
+- **Standings Panel** — paginated standings with friends filter, opens from Contest Detail Panel
+- `autoOpenContestProblems` setting: automatically opens all problem files when viewing a live contest
+- Contest reminders before start (configurable lead time)
+- One-click contest registration
 
-## Installation
+### User Profile Dashboard
+- Current rating, max rating, rank, contribution, and registration date
+- **Current Streak** and **Longest Streak** — consecutive daily solve streaks
+- Interactive **Rating Graph** with full contest history table
+- Problems solved by rating bucket and top solved tags
+- **Browse Solved Problems** — searchable, filterable panel with bar/pie rating chart, tag filter, sort, and export
+- **Submissions History** view with verdict filtering (AC, WA, TLE, MLE, RTE, CE)
 
-1. Open VS Code
-2. Go to Extensions (Ctrl+Shift+X / Cmd+Shift+X)
-3. Search for "Codeforces"
-4. Click Install
+### Template Management
+- Built-in paste-ready starters for all 8 supported languages
+- **Edit Language Template** (`Codeforces: Edit Language Template`) — opens your template in VS Code; changes apply to all new solution files for that language
+- **Reset Language Template to Default** — restores the built-in starter at any time
+- Supports `{problemName}`, `{contestId}`, `{index}`, `{timeLimit}`, `{memoryLimit}` placeholders
 
-Or install from the command line:
-```bash
-code --install-extension codeforces-extension.vscode-codeforces
+---
+
+## Getting Started
+
+1. **Install** the extension from the VS Code Marketplace.
+2. Open the **Codeforces** icon in the Activity Bar (left sidebar).
+3. Click **Login** and enter your Codeforces handle.
+4. *(Optional)* Click **Configure API Credentials** to enable authenticated API features.
+5. Browse problems → click one to preview → click **Open in Editor** to start coding.
+6. Press `Cmd/Ctrl+Alt+T` to run local sample tests, then `Cmd/Ctrl+Alt+S` to submit.
+
+### Submission Prerequisites
+
+Direct submission requires a local **Chrome or Chromium** installation. On the first submission the extension opens a browser window for Codeforces web login. Subsequent submissions reuse the saved session.
+
+Configure the path if it is not auto-detected:
+```json
+"codeforces.chromeExecutablePath": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 ```
 
-## Requirements
-
-- VS Code 1.85.0 or higher
-- Node.js 16+ (for local testing with certain languages)
-- Compilers for your preferred languages:
-  - **C++**: g++ (with C++17 support)
-  - **Python**: python3
-  - **Java**: javac, java
-  - **Other languages**: respective compilers/interpreters
-
-## Quick Start
-
-1. **Login**: Click "Login" in the Codeforces sidebar or run `Codeforces: Login` command
-2. **Browse Problems**: Expand the Problems section in the sidebar
-3. **Open a Problem**: Click on any problem to preview it
-4. **Start Coding**: Click "Open in Editor" to create a solution file
-5. **Test Locally**: Press `Ctrl+Alt+T` to run sample tests
-6. **Submit**: Press `Ctrl+Alt+S` to submit your solution
+---
 
 ## Commands
 
-| Command | Keybinding | Description |
-|---------|------------|-------------|
-| `Codeforces: Login` | - | Login with your Codeforces credentials |
-| `Codeforces: Logout` | - | Logout from Codeforces |
-| `Codeforces: Submit Solution` | `Ctrl+Alt+S` | Submit current file |
-| `Codeforces: Run Sample Tests` | `Ctrl+Alt+T` | Run sample test cases |
-| `Codeforces: Preview Problem` | `Ctrl+Alt+P` | Preview problem description |
-| `Codeforces: Open Problem` | - | Open a problem by ID |
-| `Codeforces: Search Problems` | - | Search for problems |
-| `Codeforces: Set Default Language` | - | Set your preferred language |
+| Command | Shortcut | Description |
+|---------|----------|-------------|
+| `Codeforces: Login` | — | Authenticate with your handle |
+| `Codeforces: Logout` | — | Sign out |
+| `Codeforces: Submit Solution` | `Cmd+Alt+S` | Submit the active solution file |
+| `Codeforces: Run Sample Tests` | `Cmd+Alt+T` | Run local sample tests |
+| `Codeforces: Preview Problem` | `Cmd+Alt+P` | Preview problem in a webview |
+| `Codeforces: Daily Problem` | — | Open today's recommended problem |
+| `Codeforces: Edit Language Template` | — | Open your code template for editing |
+| `Codeforces: Reset Language Template to Default` | — | Restore built-in template |
+| `Codeforces: Show Solved Problems` | — | Open the interactive solved problems browser |
+| `Codeforces: Show Rating Graph` | — | View your rating history chart |
+| `Codeforces: Refresh Profile Snapshot` | — | Re-fetch submission analytics |
+| `Codeforces: Search Problems` | — | Search by name or ID |
+| `Codeforces: Set Default Language` | — | Change default language for new files |
+| `Codeforces: Filter by Tag` | — | Filter problems explorer by tag |
+| `Codeforces: Filter by Rating` | — | Filter problems explorer by rating range |
+| `Codeforces: Import Samples From Clipboard` | — | Import test cases from clipboard |
+
+---
 
 ## Settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
 | `codeforces.handle` | `""` | Your Codeforces handle |
-| `codeforces.workspaceFolder` | `~/.codeforces` | Folder to store solution files |
-| `codeforces.defaultLanguage` | `cpp` | Default programming language |
+| `codeforces.workspaceFolder` | `~/.codeforces` | Root folder for solution files |
+| `codeforces.defaultLanguage` | `cpp` | Language for new solution files |
 | `codeforces.cppCompiler` | `g++` | C++ compiler command |
-| `codeforces.cppFlags` | `-std=c++17 -O2` | C++ compiler flags |
+| `codeforces.cppFlags` | `-std=c++17 -O2 -Wall -Wextra` | C++ compiler flags |
 | `codeforces.pythonCommand` | `python3` | Python interpreter |
-| `codeforces.showDifficultyBadges` | `true` | Show difficulty badges on problems |
-| `codeforces.showSolvedIndicator` | `true` | Show solved status on problems |
-| `codeforces.contestReminders` | `true` | Show contest notifications |
-| `codeforces.reminderMinutesBefore` | `15` | Minutes before contest for reminder |
-| `codeforces.showStatusBar` | `true` | Show status bar item |
-| `codeforces.includeGym` | `false` | Include Gym contests |
-| `codeforces.friendHandles` | `[]` | List of friend handles to track |
+| `codeforces.javaCommand` | `java` | Java command |
+| `codeforces.chromeExecutablePath` | `""` | Path to Chrome/Chromium for submission |
+| `codeforces.enableBrowserExtraction` | `true` | Browser-assisted problem import on 403 |
+| `codeforces.autoOpenContestProblems` | `false` | Auto-open all problems when viewing a live contest |
+| `codeforces.contestReminders` | `true` | Show notification before contests start |
+| `codeforces.reminderMinutesBefore` | `15` | Lead time for contest reminders (minutes) |
+| `codeforces.showStatusBar` | `true` | Show contest countdown in status bar |
+| `codeforces.includeGym` | `false` | Include Gym contests in contest list |
+| `codeforces.friendHandles` | `[]` | Friend handles to highlight in standings |
+| `codeforces.template.cpp` | `""` | Path to custom C++ template (set via Edit Template command) |
+| `codeforces.template.python` | `""` | Path to custom Python template |
+| `codeforces.template.java` | `""` | Path to custom Java template |
+
+---
 
 ## Supported Languages
 
-- C++ (GNU G++17)
-- Python 3
-- Java 8
-- Kotlin
-- Rust
-- Go
-- C# (Mono)
-- JavaScript (Node.js)
+| Language | Compiler/Runtime |
+|----------|-----------------|
+| C++ | g++ (GNU G++17 / G++20) |
+| Python | python3 |
+| Java | javac + java |
+| Kotlin | kotlinc |
+| Rust | rustc |
+| Go | go |
+| C# | dotnet / mono |
+| JavaScript | node |
 
-## File Structure
+---
 
-Solution files are organized as follows:
+## Solution File Layout
+
 ```
 ~/.codeforces/
 ├── problemset/
 │   ├── 1A-Theatre_Square/
-│   │   ├── cf_1A.cpp
+│   │   ├── cf_1A.cpp          ← your solution
+│   │   ├── .problem.json      ← metadata (used by test runner)
 │   │   ├── input1.txt
-│   │   ├── output1.txt
-│   │   └── .problem.json
-│   └── 4A-Watermelon/
-│       └── cf_4A.py
-└── contests/
-    └── 1900/
-        ├── A/
-        ├── B/
-        └── ...
+│   │   └── output1.txt
+│   └── 1900A-Tricky_Template/
+│       └── cf_1900A.cpp
+└── templates/
+    ├── template.cpp            ← your custom C++ template
+    └── template.py
 ```
+
+---
 
 ## API Authentication
 
-For full functionality (submitting solutions, viewing friends), you can optionally provide API credentials:
+For authenticated API features (e.g., richer profile analytics) you can optionally add API credentials:
 
-1. Go to [Codeforces API page](https://codeforces.com/settings/api)
-2. Generate an API key
-3. Enter the key and secret when prompted during login
+1. Visit [Codeforces API settings](https://codeforces.com/settings/api)
+2. Generate an API key + secret
+3. Run `Codeforces: Configure API Credentials` or click the key icon in the Profile view toolbar
 
-**Note**: API credentials are stored securely using VS Code's SecretStorage.
+Credentials are stored securely in VS Code's **SecretStorage** — never in plain text.
+
+---
 
 ## CodeLens Actions
 
-When editing a Codeforces solution file (prefixed with `cf_`), you'll see action buttons at the top:
+When editing a solution file (`cf_*.cpp`, `cf_*.py`, etc.), action buttons appear at the top:
 
-- **Submit**: Submit your solution to Codeforces
-- **Run Tests**: Run all sample test cases
-- **Custom Test**: Run with custom input
-- **Preview**: View the problem statement
+- **Submit** — submit to Codeforces
+- **Run Tests** — run all sample test cases
+- **Import Samples** — import from clipboard
+
+---
 
 ## Troubleshooting
 
-### Common Issues
-
-**Tests not running?**
-- Ensure you have the required compiler/interpreter installed
-- Check the `codeforces.cppCompiler` and `codeforces.pythonCommand` settings
+**Problem statement shows a fallback page (403)?**
+Enable `codeforces.enableBrowserExtraction` and configure `codeforces.chromeExecutablePath`. The extension will open Chrome, let you complete any verification, then extract the statement automatically.
 
 **Submission not working?**
-- Make sure you're logged in
-- Check your internet connection
-- Some features require API key authentication
+A local Chrome/Chromium installation is required. Check `codeforces.chromeExecutablePath`. On first use, log into Codeforces in the opened browser window; subsequent submissions reuse the session.
 
-**Problems not loading?**
-- Check your internet connection
-- Try refreshing with the refresh button
-- Clear cache by reloading VS Code
+**Tests not running?**
+Ensure the required compiler/interpreter is on your PATH. Check `codeforces.cppCompiler` and `codeforces.pythonCommand`.
 
-### Debug Logs
+**Profile stats not loading?**
+Run `Codeforces: Refresh Profile Snapshot`. Stats require a successful API fetch of your recent submissions.
 
-View extension logs:
-1. Open Command Palette (Ctrl+Shift+P)
-2. Run "Developer: Show Logs"
-3. Select "Codeforces" from the dropdown
+---
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues and pull requests.
+Issues and pull requests welcome on [GitHub](https://github.com/your-username/vscode-codeforces).
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- [Codeforces](https://codeforces.com) for the amazing competitive programming platform
-- [vscode-leetcode](https://github.com/LeetCode-OpenSource/vscode-leetcode) for inspiration
-- All contributors and users of this extension
+MIT — see [LICENSE](LICENSE) for details.
 
 ---
 

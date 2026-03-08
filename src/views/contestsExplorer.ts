@@ -181,14 +181,14 @@ export class ContestsExplorer implements vscode.TreeDataProvider<ContestTreeItem
     return `in ${minutes}m`;
   }
 
+  getRunningContests(): Contest[] {
+    return this.contests.filter(c => c.phase === 'CODING');
+  }
+
   private getUpcomingContests(): Contest[] {
     return this.contests
       .filter(c => c.phase === 'BEFORE')
       .sort((a, b) => (a.startTimeSeconds || 0) - (b.startTimeSeconds || 0));
-  }
-
-  private getRunningContests(): Contest[] {
-    return this.contests.filter(c => c.phase === 'CODING');
   }
 
   private getRecentContests(): Contest[] {

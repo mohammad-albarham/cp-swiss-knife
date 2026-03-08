@@ -33,6 +33,8 @@ export interface UserAnalyticsSnapshot {
   mostDifficultSolved?: UserAnalyticsProblemSummary;
   ratingBuckets: UserAnalyticsRatingBucket[];
   topTags: UserAnalyticsTagStat[];
+  currentStreak: number;
+  longestStreak: number;
   recentSubmissions: Submission[];
   solvedProblems: UserAnalyticsProblemSummary[];
 }

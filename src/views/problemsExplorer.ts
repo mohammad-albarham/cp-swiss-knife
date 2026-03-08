@@ -50,6 +50,10 @@ export class ProblemsExplorer implements vscode.TreeDataProvider<ProblemTreeItem
     this._onDidChangeTreeData.fire();
   }
 
+  getProblems(): Problem[] {
+    return this.problems;
+  }
+
   private async loadProblems(forceRefresh = false): Promise<void> {
     if (this.isLoading) { return; }
 
@@ -204,6 +208,10 @@ export class ProblemsExplorer implements vscode.TreeDataProvider<ProblemTreeItem
       return this.getRootCategories();
     }
 
+    if (element.type === 'category' && element.label === 'Daily Problem') {
+      return this.getDailyProblem();
+    }
+
     if (element.type === 'category' && element.label === 'By Rating') {
       return this.getRatingCategories();
     }
@@ -243,6 +251,12 @@ export class ProblemsExplorer implements vscode.TreeDataProvider<ProblemTreeItem
     const isLoggedIn = authService.isLoggedIn();
 
     const categories: ProblemTreeItem[] = [];
+
+    categories.push({
+      type: 'category',
+      label: 'Daily Problem',
+      description: 'Problem of the day'
+    });
 
     if (isLoggedIn) {
       categories.push({
@@ -316,6 +330,35 @@ export class ProblemsExplorer implements vscode.TreeDataProvider<ProblemTreeItem
         label: `${tag} (${count})`,
         filter: { tags: [tag] }
       }));
+  }
+
+  private getDailyProblem(): ProblemTreeItem[] {
+    const authService = getAuthService();
+    const storage = getStorageService();
+    const user = authService.getCurrentUser();
+    const userRating = user?.rating ?? 1200;
+    const seed = Math.floor(Date.now() / 86400000);
+    const solved = new Set(storage.getSolvedProblems().map(p => `${p.contestId}${p.index}`));
+
+    const eligible = this.problems.filter(p => {
+      if (!p.rating) { return false; }
+      if (solved.has(`${p.contestId}${p.index}`)) { return false; }
+      return p.rating >= userRating - 100 && p.rating <= userRating + 300;
+    });
+
+    if (eligible.length === 0) {
+      return [{ type: 'status', label: 'No eligible daily problem', description: 'Solve more problems to unlock' }];
+    }
+
+    const problem = eligible[seed % eligible.length];
+    const stat = this.statistics.get(`${problem.contestId}-${problem.index}`);
+    return [{
+      type: 'problem' as TreeItemType,
+      label: `${problem.contestId}${problem.index} - ${problem.name}`,
+      description: problem.rating ? `${problem.rating}` : undefined,
+      problem,
+      statistics: stat
+    }];
   }
 
   private getRecommendedProblems(): ProblemTreeItem[] {

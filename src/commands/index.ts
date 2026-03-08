@@ -11,6 +11,8 @@ import { getSubmissionsView, type VerdictFilter } from '../views/submissionsView
 import { TestResultsPanel } from '../views/testResultsPanel';
 import { ProblemPreview } from '../views/problemPreview';
 import { SolvedProblemsPanel } from '../views/solvedProblemsPanel';
+import { ContestDetailPanel } from '../views/contestDetailPanel';
+import { StandingsPanel } from '../views/standingsPanel';
 import { Problem, Contest, SupportedLanguage, LANGUAGE_CONFIGS, TestCase } from '../api/types';
 import { WEB_BASE_URL, WEB_ENDPOINTS } from '../api/endpoints';
 import * as fs from 'fs';
@@ -440,11 +442,18 @@ export function registerCommands(context: vscode.ExtensionContext): void {
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand('codeforces.openContest', (contest?: Contest) => {
+    vscode.commands.registerCommand('codeforces.openContest', async (contest?: Contest) => {
       if (contest) {
-        vscode.env.openExternal(
-          vscode.Uri.parse(`https://codeforces.com/contest/${contest.id}`)
-        );
+        await ContestDetailPanel.show(context, contest.id);
+      }
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('codeforces.showStandings', async (...args: unknown[]) => {
+      const contestId = args[0] as number;
+      if (contestId) {
+        await StandingsPanel.show(context, contestId);
       }
     })
   );
@@ -632,6 +641,138 @@ export function registerCommands(context: vscode.ExtensionContext): void {
         return;
       }
       SolvedProblemsPanel.show(context);
+    })
+  );
+
+  // Template management
+  context.subscriptions.push(
+    vscode.commands.registerCommand('codeforces.editTemplate', async () => {
+      const templateService = getTemplateService();
+
+      const languages = Object.entries(LANGUAGE_CONFIGS).map(([key, config]) => ({
+        label: config.displayName,
+        value: key as SupportedLanguage,
+        extension: config.extension
+      }));
+
+      const selected = await vscode.window.showQuickPick(
+        languages.map(l => ({ label: l.label, value: l.value, extension: l.extension })),
+        { placeHolder: 'Select language to edit template' }
+      );
+
+      if (!selected) { return; }
+
+      const workspaceFolder = vscode.workspace.getConfiguration('codeforces')
+        .get<string>('workspaceFolder', '').trim() || path.join(os.homedir(), '.codeforces');
+      const expandedFolder = workspaceFolder.replace(/^~(?=$|\/)/, os.homedir());
+      const templatesFolder = path.join(expandedFolder, 'templates');
+
+      if (!fs.existsSync(templatesFolder)) {
+        fs.mkdirSync(templatesFolder, { recursive: true });
+      }
+
+      const configKey = `template.${selected.value}`;
+      const existingPath = vscode.workspace.getConfiguration('codeforces').get<string>(configKey, '').trim();
+      const expandedExisting = existingPath.replace(/^~(?=$|\/)/, os.homedir());
+
+      let templatePath: string;
+      if (existingPath && fs.existsSync(expandedExisting)) {
+        templatePath = expandedExisting;
+      } else {
+        templatePath = path.join(templatesFolder, `template${selected.extension}`);
+        if (!fs.existsSync(templatePath)) {
+          fs.writeFileSync(templatePath, templateService.getDefaultTemplate(selected.value), 'utf-8');
+        }
+        await vscode.workspace.getConfiguration('codeforces').update(configKey, templatePath, true);
+      }
+
+      const doc = await vscode.workspace.openTextDocument(vscode.Uri.file(templatePath));
+      await vscode.window.showTextDocument(doc);
+      vscode.window.showInformationMessage(
+        `Editing ${selected.label} template. Save the file — it will be used for all new ${selected.label} solution files.`
+      );
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('codeforces.resetTemplate', async () => {
+      const templateService = getTemplateService();
+
+      const languages = Object.entries(LANGUAGE_CONFIGS).map(([key, config]) => ({
+        label: config.displayName,
+        value: key as SupportedLanguage
+      }));
+
+      const selected = await vscode.window.showQuickPick(
+        languages.map(l => ({ label: l.label, value: l.value })),
+        { placeHolder: 'Select language to reset template to built-in default' }
+      );
+
+      if (!selected) { return; }
+
+      const confirmed = await vscode.window.showWarningMessage(
+        `Reset ${selected.label} template to the built-in default? Any custom template file will be kept on disk but the setting will be cleared.`,
+        { modal: true },
+        'Reset'
+      );
+
+      if (confirmed !== 'Reset') { return; }
+
+      await vscode.workspace.getConfiguration('codeforces')
+        .update(`template.${selected.value}`, undefined, true);
+
+      vscode.window.showInformationMessage(
+        `${selected.label} template reset to built-in default. New solution files will use the default template.`
+      );
+
+      void templateService; // service available if needed in future
+    })
+  );
+
+  // Daily problem
+  context.subscriptions.push(
+    vscode.commands.registerCommand('codeforces.dailyProblem', async () => {
+      const explorer = getProblemsExplorer();
+      const problems = explorer.getProblems();
+
+      if (problems.length === 0) {
+        vscode.window.showInformationMessage('Problems not loaded yet. Please wait and try again.');
+        return;
+      }
+
+      const authService = getAuthService();
+      const storage = getStorageService();
+      const userRating = authService.getCurrentUser()?.rating ?? 1200;
+      const seed = Math.floor(Date.now() / 86400000);
+      const today = new Date().toISOString().slice(0, 10);
+
+      const cached = context.globalState.get<{ date: string; contestId: number; index: string; name: string }>('codeforces.dailyProblem');
+      if (cached && cached.date === today) {
+        await vscode.commands.executeCommand('codeforces.previewProblem', cached.contestId, cached.index, cached.name);
+        return;
+      }
+
+      const solved = new Set(storage.getSolvedProblems().map(p => `${p.contestId}${p.index}`));
+      const eligible = problems.filter(p => {
+        if (!p.rating || !p.contestId) { return false; }
+        if (solved.has(`${p.contestId}${p.index}`)) { return false; }
+        return p.rating >= userRating - 100 && p.rating <= userRating + 300;
+      });
+
+      if (eligible.length === 0) {
+        vscode.window.showInformationMessage('No eligible problems found for today. Try adjusting your rating range.');
+        return;
+      }
+
+      const problem = eligible[seed % eligible.length];
+      await context.globalState.update('codeforces.dailyProblem', {
+        date: today,
+        contestId: problem.contestId,
+        index: problem.index,
+        name: problem.name
+      });
+
+      await vscode.commands.executeCommand('codeforces.previewProblem', problem.contestId!, problem.index, problem.name);
     })
   );
 }

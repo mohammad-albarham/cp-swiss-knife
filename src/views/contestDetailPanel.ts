@@ -67,6 +67,13 @@ export class ContestDetailPanel {
     }
 
     this.currentPanel.webview.html = this.getHtml(this.currentPanel.webview, state);
+
+    const autoOpen = vscode.workspace.getConfiguration('codeforces').get<boolean>('autoOpenContestProblems', false);
+    if (autoOpen && state.contest?.phase === 'CODING' && state.problems) {
+      for (const p of state.problems) {
+        await vscode.commands.executeCommand('codeforces.openProblemInVsCode', state.contestId, p.index);
+      }
+    }
   }
 
   private static async fetchContestData(contestId: number, handle?: string): Promise<ContestDetailState> {

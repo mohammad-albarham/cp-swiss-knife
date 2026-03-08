@@ -2,8 +2,10 @@
   "name": "vscode-codeforces",
   "displayName": "Codeforces",
   "description": "Solve Codeforces problems directly in VS Code - browse problems, participate in contests, submit solutions, and track your progress",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "codeforces-extension",
+  "license": "MIT",
+  "icon": "media/codeforces.svg",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -201,6 +203,24 @@
         "command": "codeforces.showSolvedProblems",
         "title": "Codeforces: Show Solved Problems",
         "icon": "$(checklist)"
+      },
+      {
+        "command": "codeforces.showStandings",
+        "title": "Codeforces: Show Standings"
+      },
+      {
+        "command": "codeforces.dailyProblem",
+        "title": "Codeforces: Daily Problem",
+        "icon": "$(calendar)"
+      },
+      {
+        "command": "codeforces.editTemplate",
+        "title": "Codeforces: Edit Language Template",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "codeforces.resetTemplate",
+        "title": "Codeforces: Reset Language Template to Default"
       }
     ],
     "viewsContainers": {

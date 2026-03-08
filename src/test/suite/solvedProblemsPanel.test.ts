@@ -26,6 +26,8 @@ function buildSnapshot(overrides: Partial<UserAnalyticsSnapshot> = {}): UserAnal
     attemptedProblemCount: 50,
     attemptedUnsolvedCount: 10,
     acceptanceRate: 0.6,
+    currentStreak: 0,
+    longestStreak: 0,
     isPartial: false,
     ratingBuckets: [
       { label: '800-1000', min: 800, max: 1000, count: 5 },

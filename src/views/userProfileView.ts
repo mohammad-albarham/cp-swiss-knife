@@ -194,6 +194,18 @@ export class UserProfileView implements vscode.TreeDataProvider<UserTreeItem> {
           icon: 'pulse'
         },
         {
+          type: 'metric',
+          label: 'Current Streak',
+          description: this.analytics ? `${this.analytics.currentStreak} day${this.analytics.currentStreak !== 1 ? 's' : ''}` : 'Loading...',
+          icon: 'flame'
+        },
+        {
+          type: 'metric',
+          label: 'Longest Streak',
+          description: this.analytics ? `${this.analytics.longestStreak} days` : 'Loading...',
+          icon: 'trophy'
+        },
+        {
           type: 'section',
           label: 'Actions',
           section: 'actions',
