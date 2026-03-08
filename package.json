@@ -1,0 +1,548 @@
+{
+  "name": "vscode-codeforces",
+  "displayName": "Codeforces",
+  "description": "Solve Codeforces problems directly in VS Code - browse problems, participate in contests, submit solutions, and track your progress",
+  "version": "0.1.0",
+  "publisher": "codeforces-extension",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Education"
+  ],
+  "keywords": [
+    "codeforces",
+    "competitive programming",
+    "algorithm",
+    "contest",
+    "programming"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/vscode-codeforces"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codeforces.login",
+        "title": "Codeforces: Login",
+        "icon": "$(sign-in)"
+      },
+      {
+        "command": "codeforces.logout",
+        "title": "Codeforces: Logout",
+        "icon": "$(sign-out)"
+      },
+      {
+        "command": "codeforces.configureApiCredentials",
+        "title": "Codeforces: Configure API Credentials",
+        "icon": "$(key)"
+      },
+      {
+        "command": "codeforces.showProfile",
+        "title": "Codeforces: Show Profile",
+        "icon": "$(account)"
+      },
+      {
+        "command": "codeforces.refreshProfile",
+        "title": "Codeforces: Refresh Profile Snapshot",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codeforces.showRatingGraph",
+        "title": "Codeforces: Show Rating Graph",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "codeforces.openProfileOnWeb",
+        "title": "Codeforces: Open Profile on Codeforces",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "codeforces.viewProfile",
+        "title": "Codeforces: Focus Profile View",
+        "icon": "$(layout-sidebar-right)"
+      },
+      {
+        "command": "codeforces.refreshProblems",
+        "title": "Codeforces: Refresh Problems",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codeforces.openProblem",
+        "title": "Codeforces: Open Problem"
+      },
+      {
+        "command": "codeforces.searchProblem",
+        "title": "Codeforces: Search Problems",
+        "icon": "$(search)"
+      },
+      {
+        "command": "codeforces.previewProblem",
+        "title": "Codeforces: Preview Problem"
+      },
+      {
+        "command": "codeforces.openProblemInVsCode",
+        "title": "Codeforces: Open Problem in VS Code"
+      },
+      {
+        "command": "codeforces.submit",
+        "title": "Codeforces: Submit Solution",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "codeforces.runTests",
+        "title": "Codeforces: Run Sample Tests",
+        "icon": "$(play)"
+      },
+      {
+        "command": "codeforces.customTest",
+        "title": "Codeforces: Run Custom Test"
+      },
+      {
+        "command": "codeforces.importSamplesFromClipboard",
+        "title": "Codeforces: Import Samples From Clipboard",
+        "icon": "$(clippy)"
+      },
+      {
+        "command": "codeforces.refreshContests",
+        "title": "Codeforces: Refresh Contests",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codeforces.openContest",
+        "title": "Codeforces: Open Contest"
+      },
+      {
+        "command": "codeforces.registerContest",
+        "title": "Codeforces: Register for Contest"
+      },
+      {
+        "command": "codeforces.viewStandings",
+        "title": "Codeforces: View Standings"
+      },
+      {
+        "command": "codeforces.virtualContest",
+        "title": "Codeforces: Start Virtual Contest"
+      },
+      {
+        "command": "codeforces.viewContests",
+        "title": "Codeforces: Focus Contests View"
+      },
+      {
+        "command": "codeforces.viewSubmissions",
+        "title": "Codeforces: View Submissions"
+      },
+      {
+        "command": "codeforces.openEditorial",
+        "title": "Codeforces: Open Editorial"
+      },
+      {
+        "command": "codeforces.setLanguage",
+        "title": "Codeforces: Set Default Language"
+      },
+      {
+        "command": "codeforces.starProblem",
+        "title": "Codeforces: Star Problem",
+        "icon": "$(star-empty)"
+      },
+      {
+        "command": "codeforces.unstarProblem",
+        "title": "Codeforces: Unstar Problem",
+        "icon": "$(star-full)"
+      },
+      {
+        "command": "codeforces.filterByTag",
+        "title": "Codeforces: Filter by Tag"
+      },
+      {
+        "command": "codeforces.filterByRating",
+        "title": "Codeforces: Filter by Rating"
+      },
+      {
+        "command": "codeforces.clearFilters",
+        "title": "Codeforces: Clear Filters"
+      },
+      {
+        "command": "codeforces.markProblemAsSolved",
+        "title": "Codeforces: Mark Problem as Solved",
+        "icon": "$(check)"
+      },
+      {
+        "command": "codeforces.unmarkProblemAsSolved",
+        "title": "Codeforces: Unmark Problem as Solved",
+        "icon": "$(circle-slash)"
+      },
+      {
+        "command": "codeforces.openProblemOnWeb",
+        "title": "Codeforces: Open Problem on Codeforces",
+        "icon": "$(globe)"
+      },
+      {
+        "command": "codeforces.viewProblemSubmissions",
+        "title": "Codeforces: View Problem Submissions",
+        "icon": "$(history)"
+      },
+      {
+        "command": "codeforces.refreshSubmissions",
+        "title": "Codeforces: Refresh Submissions",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "codeforces.filterSubmissions",
+        "title": "Codeforces: Filter Submissions"
+      },
+      {
+        "command": "codeforces.showSolvedProblems",
+        "title": "Codeforces: Show Solved Problems",
+        "icon": "$(checklist)"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "codeforces",
+          "title": "Codeforces",
+          "icon": "media/codeforces.svg"
+        }
+      ]
+    },
+    "views": {
+      "codeforces": [
+        {
+          "id": "codeforcesProblems",
+          "name": "Problems",
+          "icon": "media/codeforces.svg"
+        },
+        {
+          "id": "codeforcesContests",
+          "name": "Contests",
+          "icon": "media/codeforces.svg"
+        },
+        {
+          "id": "codeforcesSubmissions",
+          "name": "Submissions",
+          "icon": "media/codeforces.svg"
+        },
+        {
+          "id": "codeforcesUser",
+          "name": "Profile",
+          "icon": "media/codeforces.svg"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "codeforcesUser",
+        "contents": "Welcome to Codeforces!\n[Login](command:codeforces.login)\nLogin to view your profile, submit solutions, and track your progress.",
+        "when": "!codeforces.isLoggedIn"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "codeforces.refreshProblems",
+          "when": "view == codeforcesProblems",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.searchProblem",
+          "when": "view == codeforcesProblems",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.refreshContests",
+          "when": "view == codeforcesContests",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.refreshSubmissions",
+          "when": "view == codeforcesSubmissions",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.login",
+          "when": "view == codeforcesUser && !codeforces.isLoggedIn",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.showProfile",
+          "when": "view == codeforcesUser && codeforces.isLoggedIn",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.refreshProfile",
+          "when": "view == codeforcesUser && codeforces.isLoggedIn",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.showRatingGraph",
+          "when": "view == codeforcesUser && codeforces.isLoggedIn",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.showSolvedProblems",
+          "when": "view == codeforcesUser && codeforces.isLoggedIn",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.openProfileOnWeb",
+          "when": "view == codeforcesUser && codeforces.isLoggedIn",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.configureApiCredentials",
+          "when": "view == codeforcesUser && codeforces.isLoggedIn",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.logout",
+          "when": "view == codeforcesUser && codeforces.isLoggedIn",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "codeforces.openProblem",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "inline"
+        },
+        {
+          "command": "codeforces.previewProblem",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "navigation@1"
+        },
+        {
+          "command": "codeforces.openProblemOnWeb",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "navigation@2"
+        },
+        {
+          "command": "codeforces.viewProblemSubmissions",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "navigation@3"
+        },
+        {
+          "command": "codeforces.markProblemAsSolved",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "actions@1"
+        },
+        {
+          "command": "codeforces.starProblem",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "actions@2"
+        },
+        {
+          "command": "codeforces.unstarProblem",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "actions@3"
+        },
+        {
+          "command": "codeforces.unmarkProblemAsSolved",
+          "when": "view == codeforcesProblems && viewItem == problem",
+          "group": "actions@4"
+        },
+        {
+          "command": "codeforces.openContest",
+          "when": "view == codeforcesContests && viewItem == contest",
+          "group": "inline"
+        },
+        {
+          "command": "codeforces.registerContest",
+          "when": "view == codeforcesContests && viewItem == upcomingContest"
+        },
+        {
+          "command": "codeforces.viewStandings",
+          "when": "view == codeforcesContests && viewItem == contest"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "codeforces.submit",
+          "when": "resourceFilename =~ /^cf_.*$/",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.runTests",
+          "when": "resourceFilename =~ /^cf_.*$/",
+          "group": "navigation"
+        },
+        {
+          "command": "codeforces.importSamplesFromClipboard",
+          "when": "resourceFilename =~ /^cf_.*$/",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Codeforces",
+      "properties": {
+        "codeforces.handle": {
+          "type": "string",
+          "default": "",
+          "description": "Your Codeforces handle"
+        },
+        "codeforces.workspaceFolder": {
+          "type": "string",
+          "default": "",
+          "description": "Folder to store solution files (default: ~/.codeforces)"
+        },
+        "codeforces.defaultLanguage": {
+          "type": "string",
+          "default": "cpp",
+          "enum": [
+            "cpp",
+            "python",
+            "java",
+            "kotlin",
+            "rust",
+            "go",
+            "csharp",
+            "javascript"
+          ],
+          "description": "Default programming language for solutions"
+        },
+        "codeforces.cppCompiler": {
+          "type": "string",
+          "default": "g++",
+          "description": "C++ compiler command"
+        },
+        "codeforces.cppFlags": {
+          "type": "string",
+          "default": "-std=c++17 -O2 -Wall -Wextra",
+          "description": "C++ compiler flags"
+        },
+        "codeforces.pythonCommand": {
+          "type": "string",
+          "default": "python3",
+          "description": "Python interpreter command"
+        },
+        "codeforces.chromeExecutablePath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional path to a local Chrome/Chromium executable for browser-assisted problem import"
+        },
+        "codeforces.enableBrowserExtraction": {
+          "type": "boolean",
+          "default": true,
+          "description": "Try browser-assisted problem extraction with local Chrome when direct fetch is blocked"
+        },
+        "codeforces.javaCommand": {
+          "type": "string",
+          "default": "java",
+          "description": "Java command"
+        },
+        "codeforces.showDifficultyBadges": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show difficulty badges on problems"
+        },
+        "codeforces.showSolvedIndicator": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show solved indicator on problems"
+        },
+        "codeforces.contestReminders": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show notifications before contests start"
+        },
+        "codeforces.reminderMinutesBefore": {
+          "type": "number",
+          "default": 15,
+          "description": "Minutes before contest to show reminder"
+        },
+        "codeforces.autoOpenContestProblems": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically open all problems when contest starts"
+        },
+        "codeforces.showStatusBar": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show Codeforces status bar item"
+        },
+        "codeforces.includeGym": {
+          "type": "boolean",
+          "default": false,
+          "description": "Include Gym contests in contest list"
+        },
+        "codeforces.friendHandles": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "description": "List of friend handles to track"
+        },
+        "codeforces.template.cpp": {
+          "type": "string",
+          "default": "",
+          "description": "Path to custom C++ template file"
+        },
+        "codeforces.template.python": {
+          "type": "string",
+          "default": "",
+          "description": "Path to custom Python template file"
+        },
+        "codeforces.template.java": {
+          "type": "string",
+          "default": "",
+          "description": "Path to custom Java template file"
+        }
+      }
+    },
+    "keybindings": [
+      {
+        "command": "codeforces.submit",
+        "key": "ctrl+alt+s",
+        "mac": "cmd+alt+s",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeforces.runTests",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeforces.previewProblem",
+        "key": "ctrl+alt+p",
+        "mac": "cmd+alt+p"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "npm run compile && mocha --require ./out/test/register-mock.js --ui tdd --timeout 10000 './out/test/suite/**/*.test.js'",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.7.1",
+    "eslint": "^8.55.0",
+    "mocha": "^10.2.0",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "axios": "^1.6.2",
+    "cheerio": "^1.0.0-rc.12",
+    "crypto-js": "^4.2.0",
+    "playwright-core": "^1.58.2"
+  }
+}

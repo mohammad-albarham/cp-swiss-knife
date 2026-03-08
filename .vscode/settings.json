@@ -1,0 +1,12 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^command -v code && code --install-extension vscode-codeforces-0\\.1\\.0\\.vsix --force$/": {
+            "approve": true,
+            "matchCommandLine": true
+        },
+        "/^npm run package && code --install-extension vscode-codeforces-0\\.1\\.0\\.vsix --force$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}
