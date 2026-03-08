@@ -1,8 +1,8 @@
 {
   "name": "cp-swiss-knife",
   "displayName": "CP Swiss Knife",
-  "description": "Competitive Programming Swiss Knife \u2014 solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
-  "version": "0.2.1",
+  "description": "Competitive Programming Swiss Knife — solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
+  "version": "0.2.2",
   "publisher": "albarham",
   "icon": "media/icon.png",
   "galleryBanner": {
