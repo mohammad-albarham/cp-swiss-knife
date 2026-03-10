@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --color-slate-950: #020617;
+}
+
+/* Custom base styles */
+@layer base {
+  body {
+    background-color: var(--color-slate-950);
+    color: #e2e8f0;
+  }
+}
