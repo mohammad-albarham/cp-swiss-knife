@@ -167,9 +167,12 @@ Solve Codeforces problems directly in VS Code — browse problems, join contests
 
 For authenticated API features (e.g., richer profile analytics) you can optionally add API credentials:
 
-1. Visit [Codeforces API settings](https://codeforces.com/settings/api)
-2. Generate an API key + secret
-3. Run `Codeforces: Configure API Credentials` or click the key icon in the Profile view toolbar
+1. Visit the [Codeforces API settings page](https://codeforces.com/settings/api).
+2. Click on the **Add API key** button.
+3. Enter a label for your key (e.g., "CP Swiss Knife VS Code") and click **Add**.
+4. You will be provided with a **Key** and a **Secret**. Keep this page open.
+5. In VS Code, run the command `Codeforces: Configure API Credentials` or click the key icon in the Profile view toolbar.
+6. Paste the **Key** and **Secret** when prompted.
 
 Credentials are stored securely in VS Code's **SecretStorage** — never in plain text.
 
