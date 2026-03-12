@@ -2,7 +2,7 @@
   "name": "cp-swiss-knife",
   "displayName": "CP Swiss Knife",
   "description": "Competitive Programming Swiss Knife — solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "publisher": "albarham",
   "icon": "media/icon.png",
   "galleryBanner": {
@@ -29,7 +29,10 @@
     "url": "https://github.com/mohammad-albarham/cp-swiss-knife"
   },
   "activationEvents": [
-    "onView:codeforcesUserDashboard"
+    "onView:codeforcesUserDashboard",
+    "onView:codeforcesProblems",
+    "onView:codeforcesContests",
+    "onView:codeforcesSubmissions"
   ],
   "main": "./dist/extension.js",
   "contributes": {

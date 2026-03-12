@@ -9,7 +9,12 @@ import { getNonce, getCspMeta, getThemeStyles, escapeHtml } from './webviewUtils
 import { getProblemsExplorer } from './problemsExplorer';
 import { ProfileSummaryPanel } from './profileSummaryPanel';
 
-
+function withTimeout<T>(promise: Promise<T>, ms: number, fallback: T): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>(resolve => setTimeout(() => resolve(fallback), ms))
+  ]);
+}
 
 export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'codeforcesUserDashboard';
@@ -28,7 +33,6 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   resolveWebviewView(webviewView: vscode.WebviewView, _ctx: vscode.WebviewViewResolveContext, _token: vscode.CancellationToken): void {
-    console.log('Codeforces extension: Resolving Profile Webview');
     this.view = webviewView;
 
     webviewView.webview.options = {
@@ -94,17 +98,11 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
     }
 
     try {
-      const ratingHistory = await codeforcesApi.getUserRating(user.handle);
-      if (ratingHistory.length === 0) {
-        vscode.window.showInformationMessage('No rating history available for this user.');
-        return;
-      }
-      
       // The full graph is displayed inside the main Profile Summary Panel. 
       // Open that panel directly when the user requests the "Full Graph"
       await ProfileSummaryPanel.show(this.context);
     } catch (error) {
-      vscode.window.showErrorMessage('Failed to load rating history');
+      vscode.window.showErrorMessage('Failed to load profile panel');
       console.error(error);
     }
   }
@@ -120,13 +118,41 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
       return;
     }
 
+    // Try to show cached data immediately while fetching fresh data
+    const statsService = getUserStatsService();
+    const cached = getStorageService().getUserAnalyticsCache(user.handle);
+
+    if (cached && !forceRefresh) {
+      // Show cached data instantly — no loading spinner
+      try {
+        const cachedRating = await withTimeout(codeforcesApi.getUserRating(user.handle), 5000, []);
+        this.view.webview.html = ProfileWebviewProvider.getHtml(
+          this.view.webview, user, cachedRating, cached
+        );
+      } catch {
+        // Even rating fetch failed, show with empty rating
+        this.view.webview.html = ProfileWebviewProvider.getHtml(
+          this.view.webview, user, [], cached
+        );
+      }
+      // Refresh in background silently
+      this.backgroundRefresh(user);
+      return;
+    }
+
+    // No cache — show loading and fetch
     this.view.webview.html = this.getLoadingHtml(this.view.webview);
 
     try {
       const [ratingHistory, analytics] = await Promise.all([
-        codeforcesApi.getUserRating(user.handle),
-        getUserStatsService().getSnapshot(user.handle, forceRefresh)
+        withTimeout(codeforcesApi.getUserRating(user.handle), 15000, []),
+        withTimeout(statsService.getSnapshot(user.handle, forceRefresh), 15000, null)
       ]);
+
+      if (!analytics) {
+        this.view.webview.html = this.getErrorHtml(this.view.webview, 'Codeforces API timed out. Try again later.');
+        return;
+      }
 
       // Sync solved problems so other views stay consistent
       if (analytics.solvedProblems.length > 0) {
@@ -145,6 +171,26 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
       const msg = error instanceof Error ? error.message : String(error);
       this.view.webview.html = this.getErrorHtml(this.view.webview, `Profile Render Error: ${msg}`);
     }
+  }
+
+  private backgroundRefresh(user: User): void {
+    const statsService = getUserStatsService();
+    Promise.all([
+      withTimeout(codeforcesApi.getUserRating(user.handle), 15000, null),
+      withTimeout(statsService.getSnapshot(user.handle, true), 30000, null)
+    ]).then(([ratingHistory, analytics]) => {
+      if (!this.view || !analytics) { return; }
+      if (ratingHistory) {
+        // Sync solved problems
+        if (analytics.solvedProblems.length > 0) {
+          const storage = getStorageService();
+          storage.syncSolvedProblemsFromApi(analytics.solvedProblems).catch(() => {});
+        }
+        this.view.webview.html = ProfileWebviewProvider.getHtml(
+          this.view.webview, user, ratingHistory, analytics
+        );
+      }
+    }).catch(() => { /* silent background refresh */ });
   }
 
   private getLoginHtml(webview: vscode.Webview): string {
@@ -538,8 +584,9 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
       var W = rect.width, H = rect.height;
 
       var totalDays = 90;
-      var cols = Math.ceil(totalDays / 7);
-      var cellSize = Math.min(Math.floor((W - 4) / cols) - 1, Math.floor((H - 4) / 7) - 1, 10);
+      var firstDow = days.length > 0 ? days[0].dayOfWeek : 0;
+      var totalCols = Math.ceil((totalDays + firstDow) / 7);
+      var cellSize = Math.min(Math.floor((W - 4) / totalCols) - 1, Math.floor((H - 4) / 7) - 1, 10);
       var gap = 2;
 
       var today = new Date();
@@ -560,12 +607,20 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
 
       var startX = 2;
       var startY = 2;
-      var col = 0;
 
+      // Draw empty cells for padding of the first week
+      for (var paddingDow = 0; paddingDow < firstDow; paddingDow++) {
+         var px = startX;
+         var py = startY + paddingDow * (cellSize + gap);
+         ctx.fillStyle = 'rgba(128,128,128,0.05)';
+         ctx.beginPath();
+         ctx.roundRect(px, py, cellSize, cellSize, 2);
+         ctx.fill();
+      }
+
+      var col = 0;
       // Pad first week
       if (days.length > 0) {
-        var firstDow = days[0].dayOfWeek;
-        col = 0;
         var row = firstDow;
         for (var di2 = 0; di2 < days.length; di2++) {
           var day2 = days[di2];
@@ -577,7 +632,7 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
             ctx.fillStyle = 'rgba(128,128,128,0.1)';
           } else {
             var alpha = 0.3 + intensity * 0.7;
-            ctx.fillStyle = 'rgba(47, 143, 78, ' + alpha + ')';
+            ctx.fillStyle = 'rgba(47, 143, 78, ' + alpha + ')'; // green
           }
           ctx.beginPath();
           ctx.roundRect(x, y, cellSize, cellSize, 2);
@@ -588,6 +643,17 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
             row = 0;
             col++;
           }
+        }
+        
+        // Pad the rest of the last week
+        var lastDow = days[days.length - 1].dayOfWeek;
+        for (var paddingEndDow = lastDow + 1; paddingEndDow < 7; paddingEndDow++) {
+           var endX = startX + col * (cellSize + gap);
+           var endY = startY + paddingEndDow * (cellSize + gap);
+           ctx.fillStyle = 'rgba(128,128,128,0.05)';
+           ctx.beginPath();
+           ctx.roundRect(endX, endY, cellSize, cellSize, 2);
+           ctx.fill();
         }
       }
     })();

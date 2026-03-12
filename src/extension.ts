@@ -22,9 +22,12 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     initTestService();
     initSubmissionService();
 
-    // Initialize auth (restore session)
-    await authService.initialize();
-    await updateAuthContext(authService.isLoggedIn());
+    // Initialize auth in background so activation doesn't block on API
+    authService.initialize().then(() => {
+        updateAuthContext(authService.isLoggedIn());
+    }).catch(err => {
+        logger.error('Auth initialization failed:', err);
+    });
 
     // Initialize views
     const problemsExplorer = initProblemsExplorer();
@@ -38,7 +41,13 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       vscode.window.registerTreeDataProvider('codeforcesSubmissions', submissionsView)
     );
 
-    initProfileWebviewProvider(context);
+    const profileWebviewProvider = initProfileWebviewProvider(context);
+    context.subscriptions.push(
+      vscode.window.registerWebviewViewProvider(
+        'codeforcesUserDashboard',
+        profileWebviewProvider
+      )
+    );
 
     // Register commands
     registerCommands(context);
