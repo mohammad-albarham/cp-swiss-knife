@@ -241,6 +241,12 @@
     "views": {
       "codeforces": [
         {
+          "type": "webview",
+          "id": "codeforcesUserDashboard",
+          "name": "Profile",
+          "icon": "media/codeforces.svg"
+        },
+        {
           "id": "codeforcesProblems",
           "name": "Problems",
           "icon": "media/codeforces.svg"
@@ -254,18 +260,12 @@
           "id": "codeforcesSubmissions",
           "name": "Submissions",
           "icon": "media/codeforces.svg"
-        },
-        {
-          "type": "webview",
-          "id": "codeforcesUserDashboard",
-          "name": "Profile",
-          "icon": "media/codeforces.svg"
         }
       ]
     },
     "viewsWelcome": [
       {
-        "view": "codeforcesUser",
+        "view": "codeforcesUserDashboard",
         "contents": "Welcome to CP Swiss Knife!\n[Login](command:codeforces.login)\nLogin to view your profile, submit solutions, and track your progress.",
         "when": "!codeforces.isLoggedIn"
       }

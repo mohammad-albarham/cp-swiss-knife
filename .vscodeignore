@@ -17,6 +17,7 @@ CHANGELOG.md
 UI_UX_IMPROVEMENTS.md
 CODEFORCES_EXTENSION_PLAN.md
 CLAUDE.md
+LOCAL_DEVELOPMENT.md
 vscode-codeforces-*.vsix
 cp-swiss-knife-*.vsix
 package-lock.json
