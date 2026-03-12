@@ -5,6 +5,31 @@ All notable changes to the "vscode-codeforces" extension will be documented in t
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-03-12
+
+### Added
+- Professional landing page, changelog, and GitHub Pages deployment
+- Unified webview profile dashboard with collapsible details
+- Advanced esbuild bundling and improved build system services
+
+### Fixed
+- Routed `showRatingGraph` and refresh Profile command handlers to the correct providers
+- Refined Content Security Policy (CSP) for webviews
+
+## [0.2.3] - 2026-03-08
+
+### Added
+- Comprehensive unit test suite with 449 tests
+- Profile Summary Panel to problem views
+- Extension icon and gallery banner
+
+### Changed
+- Renamed the extension to "CP Swiss Knife" and updated the publisher
+- Enhanced README with new profile and solved problem images
+
+### Fixed
+- Removed SVG icon field that was incompatible with the `vsce` package
+
 ## [0.2.2] - 2026-03-08
 
 ### Fixed

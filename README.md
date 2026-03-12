@@ -7,7 +7,7 @@
     <a href="https://open-vsx.org/extension/albarham/cp-swiss-knife"><strong>Open VSX Registry</strong></a>
   </p>
   <p>
-    <img src="https://img.shields.io/badge/version-0.2.3-blue" alt="Version" />
+    <img src="https://img.shields.io/badge/version-0.3.0-blue" alt="Version" />
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License" />
   </p>
 </div>
