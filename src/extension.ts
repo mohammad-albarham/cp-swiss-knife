@@ -6,8 +6,8 @@ import { initTestService, getTestService } from './services/testService';
 import { initSubmissionService, getSubmissionService } from './services/submissionService';
 import { initProblemsExplorer } from './views/problemsExplorer';
 import { initContestsExplorer, getContestsExplorer } from './views/contestsExplorer';
-import { initUserProfileView } from './views/userProfileView';
 import { initSubmissionsView } from './views/submissionsView';
+import { ProfileWebviewProvider } from './views/profileWebviewProvider';
 import { registerCommands } from './commands';
 import { logger } from './utils/logger';
 
@@ -29,15 +29,18 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     // Initialize views
     const problemsExplorer = initProblemsExplorer();
     const contestsExplorer = initContestsExplorer();
-    const userProfileView = initUserProfileView();
     const submissionsView = initSubmissionsView();
 
     // Register tree data providers
     context.subscriptions.push(
       vscode.window.registerTreeDataProvider('codeforcesProblems', problemsExplorer),
       vscode.window.registerTreeDataProvider('codeforcesContests', contestsExplorer),
-      vscode.window.registerTreeDataProvider('codeforcesUser', userProfileView),
       vscode.window.registerTreeDataProvider('codeforcesSubmissions', submissionsView)
+    );
+
+    const profileWebviewProvider = new ProfileWebviewProvider(context);
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider('codeforcesUserDashboard', profileWebviewProvider)
     );
 
     // Register commands
@@ -65,7 +68,6 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     authService.onDidChangeSession(async session => {
       await updateAuthContext(!!session);
       updateStatusBar(statusBarItem, !!session, session?.handle);
-      userProfileView.refresh();
     });
 
     // Cleanup on deactivate

@@ -13,7 +13,7 @@ export function getNonce(): string {
  * Allows styles from the webview origin, scripts only from nonce.
  */
 export function getCspMeta(webview: vscode.Webview, nonce: string): string {
-  return `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}'; font-src ${webview.cspSource}; img-src ${webview.cspSource} https:;">`;
+  return `<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' 'unsafe-eval' 'unsafe-inline'; font-src ${webview.cspSource}; img-src ${webview.cspSource} https: data:;">`;
 }
 
 /**
