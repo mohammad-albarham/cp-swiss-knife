@@ -1,0 +1,30 @@
+
+> website@0.0.1 build
+> vite build
+
+▲ [WARNING] The CommonJS "exports" variable is treated as a global variable in an ECMAScript module and may not work as expected [commonjs-variable-in-esm]
+
+    vite.config.js:9:0:
+      9 │ exports.default = (0, vite_3.defineConfig)({
+        ╵ ~~~~~~~
+
+  This file is considered to be an ECMAScript module because the enclosing "package.json" file sets the type of this file to "module":
+
+    package.json:5:9:
+      5 │   "type": "module",
+        ╵           ~~~~~~~~
+
+  Node's package format requires that CommonJS files in a "type": "module" package use the ".cjs" file extension.
+
+failed to load config from /Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/vite.config.js
+error during build:
+ReferenceError: exports is not defined in ES module scope
+    at file:///Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/node_modules/.vite-temp/vite.config.js.timestamp-1773343065027-5d16c6e7335218.mjs:12:23
+    at ModuleJob.run (node:internal/modules/esm/module_job:430:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:654:26)
+    at async loadConfigFromBundledFile (file:///Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/node_modules/vite/dist/node/chunks/config.js:35909:12)
+    at async bundleAndLoadConfigFile (file:///Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/node_modules/vite/dist/node/chunks/config.js:35797:17)
+    at async loadConfigFromFile (file:///Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/node_modules/vite/dist/node/chunks/config.js:35764:42)
+    at async resolveConfig (file:///Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/node_modules/vite/dist/node/chunks/config.js:35413:22)
+    at async createBuilder (file:///Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/node_modules/vite/dist/node/chunks/config.js:33875:19)
+    at async CAC.<anonymous> (file:///Users/pain/Desktop/hoppy_projects/competitive_programming_swiss_knife/vscode-codeforces/website/node_modules/vite/dist/node/cli.js:629:10)
