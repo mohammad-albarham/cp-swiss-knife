@@ -7,6 +7,9 @@ import { getStorageService } from '../services/storageService';
 import { getUserStatsService } from '../services/userStatsService';
 import { getNonce, getCspMeta, getThemeStyles, escapeHtml } from './webviewUtils';
 import { getProblemsExplorer } from './problemsExplorer';
+import { ProfileSummaryPanel } from './profileSummaryPanel';
+
+
 
 export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = 'codeforcesUserDashboard';
@@ -79,6 +82,31 @@ export class ProfileWebviewProvider implements vscode.WebviewViewProvider {
 
   async refreshForced(): Promise<void> {
     await this.loadAndRender(true);
+  }
+
+  async showRatingGraph(): Promise<void> {
+    const authService = getAuthService();
+    const user = authService.getCurrentUser();
+    
+    if (!user) {
+      vscode.window.showInformationMessage('No rating history available - Please login first.');
+      return;
+    }
+
+    try {
+      const ratingHistory = await codeforcesApi.getUserRating(user.handle);
+      if (ratingHistory.length === 0) {
+        vscode.window.showInformationMessage('No rating history available for this user.');
+        return;
+      }
+      
+      // The full graph is displayed inside the main Profile Summary Panel. 
+      // Open that panel directly when the user requests the "Full Graph"
+      await ProfileSummaryPanel.show(this.context);
+    } catch (error) {
+      vscode.window.showErrorMessage('Failed to load rating history');
+      console.error(error);
+    }
   }
 
   private async loadAndRender(forceRefresh: boolean): Promise<void> {

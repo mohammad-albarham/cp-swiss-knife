@@ -6,7 +6,6 @@ import { getTestService } from '../services/testService';
 import { getSubmissionService } from '../services/submissionService';
 import { getProblemsExplorer } from '../views/problemsExplorer';
 import { getContestsExplorer } from '../views/contestsExplorer';
-import { getUserProfileView } from '../views/userProfileView';
 import { getSubmissionsView, type VerdictFilter } from '../views/submissionsView';
 import { TestResultsPanel } from '../views/testResultsPanel';
 import { ProblemPreview } from '../views/problemPreview';
@@ -14,6 +13,7 @@ import { SolvedProblemsPanel } from '../views/solvedProblemsPanel';
 import { ContestDetailPanel } from '../views/contestDetailPanel';
 import { StandingsPanel } from '../views/standingsPanel';
 import { ProfileSummaryPanel } from '../views/profileSummaryPanel';
+import { getProfileWebviewProvider } from '../views/profileWebviewProvider';
 import { Problem, Contest, SupportedLanguage, LANGUAGE_CONFIGS, TestCase } from '../api/types';
 import { WEB_BASE_URL, WEB_ENDPOINTS } from '../api/endpoints';
 import * as fs from 'fs';
@@ -56,15 +56,15 @@ export function registerCommands(context: vscode.ExtensionContext): void {
 
   context.subscriptions.push(
     vscode.commands.registerCommand('codeforces.refreshProfile', async () => {
-      const profileView = getUserProfileView();
-      profileView.refresh(true);
+      const provider = getProfileWebviewProvider();
+      await provider.refreshForced();
     })
   );
 
   context.subscriptions.push(
     vscode.commands.registerCommand('codeforces.showRatingGraph', async () => {
-      const profileView = getUserProfileView();
-      await profileView.showRatingGraph();
+      const provider = getProfileWebviewProvider();
+      await provider.showRatingGraph();
     })
   );
 

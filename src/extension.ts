@@ -7,7 +7,7 @@ import { initSubmissionService, getSubmissionService } from './services/submissi
 import { initProblemsExplorer } from './views/problemsExplorer';
 import { initContestsExplorer, getContestsExplorer } from './views/contestsExplorer';
 import { initSubmissionsView } from './views/submissionsView';
-import { ProfileWebviewProvider } from './views/profileWebviewProvider';
+import { initProfileWebviewProvider } from './views/profileWebviewProvider';
 import { registerCommands } from './commands';
 import { logger } from './utils/logger';
 
@@ -38,10 +38,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
       vscode.window.registerTreeDataProvider('codeforcesSubmissions', submissionsView)
     );
 
-    const profileWebviewProvider = new ProfileWebviewProvider(context);
-    context.subscriptions.push(
-        vscode.window.registerWebviewViewProvider('codeforcesUserDashboard', profileWebviewProvider)
-    );
+    initProfileWebviewProvider(context);
 
     // Register commands
     registerCommands(context);
