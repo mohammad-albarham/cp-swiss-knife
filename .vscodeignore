@@ -24,6 +24,10 @@ package-lock.json
 esbuild.mjs
 .tmp-vsix-smoke/**
 
+website/**
+node_modules/**
+!node_modules/playwright-core/**
+
 node_modules/playwright-core/bin/**
 node_modules/playwright-core/cli.js
 node_modules/playwright-core/index.mjs

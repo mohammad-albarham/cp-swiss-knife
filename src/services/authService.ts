@@ -112,11 +112,15 @@ export class AuthService {
       }
 
       // Save session
+      const newHandle = handle.trim();
+      const isSameUser = this.session?.handle?.toLowerCase() === newHandle.toLowerCase();
+
       this.session = {
-        handle: handle.trim(),
+        ...this.session,
+        handle: newHandle,
         isLoggedIn: true,
-        apiKey,
-        apiSecret
+        apiKey: apiKey ?? (isSameUser ? this.session?.apiKey : undefined),
+        apiSecret: apiSecret ?? (isSameUser ? this.session?.apiSecret : undefined)
       };
 
       const storage = getStorageService();

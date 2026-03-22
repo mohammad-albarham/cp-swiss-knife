@@ -2,7 +2,7 @@
   "name": "cp-swiss-knife",
   "displayName": "CP Swiss Knife",
   "description": "Competitive Programming Swiss Knife — solve Codeforces problems in VS Code: browse problems, join contests, run local tests, submit solutions, and track your progress",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "publisher": "albarham",
   "icon": "media/icon.png",
   "galleryBanner": {
@@ -571,7 +571,8 @@
     "lint": "eslint src --ext ts",
     "test": "npm run compile && mocha --require ./out/test/register-mock.js --ui tdd --timeout 10000 './out/test/suite/**/*.test.js'",
     "package": "vsce package",
-    "publish": "vsce publish"
+    "publish": "vsce publish",
+    "release": "./scripts/release.sh"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
